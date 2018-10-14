@@ -1,7 +1,7 @@
 /*
  * Game functions and actions
  */
-package lunarlander;
+package lunar_lander;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -69,7 +69,7 @@ public class Framework extends Control {
     private void loadcontent() {
 	try {
 
-	    URL lunarLanderUrl = this.getClass().getResource("resources/img/menu.png");
+	    URL lunarLanderUrl = this.getClass().getResource("/lunar_lander/resources/img/menu.png");
 	    lunarLander = ImageIO.read(lunarLanderUrl);
 	} catch (IOException ex) {
 	    Logger.getLogger(Framework.class.getName()).log(Level.SEVERE, null,

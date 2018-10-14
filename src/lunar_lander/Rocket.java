@@ -1,7 +1,7 @@
 /*
  * Rocket physics and controls.
  */
-package lunarlander;
+package lunar_lander;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -74,27 +74,27 @@ public class Rocket {
 	private void loadcontent() // Load resources
 	{
 		try {
-			URL landerRocketURL = this.getClass().getResource("resources/img/landerRocket.png");
+			URL landerRocketURL = this.getClass().getResource("/lunar_lander/resources/img/landerRocket.png");
 			landerRocket = ImageIO.read(landerRocketURL);
 			landerRocketWidth = landerRocket.getWidth();
 			landerRocketHeight = landerRocket.getHeight();
 
-			URL landerLandedURL = this.getClass().getResource("resources/img/lander_landed.png");
+			URL landerLandedURL = this.getClass().getResource("/lunar_lander/resources/img/lander_landed.png");
 			landerLanded = ImageIO.read(landerLandedURL);
 
-			URL landerCrashedURL = this.getClass().getResource("resources/img/lander_crash.png");
+			URL landerCrashedURL = this.getClass().getResource("/lunar_lander/resources/img/lander_crash.png");
 			landerCrashed = ImageIO.read(landerCrashedURL);
 
-			URL landerFlyingUpURL = this.getClass().getResource("resources/img/lander_fire_up.png");
+			URL landerFlyingUpURL = this.getClass().getResource("/lunar_lander/resources/img/lander_fire_up.png");
 			landerFlyingUp = ImageIO.read(landerFlyingUpURL);
 			
-			URL landerFlyingDownURL = this.getClass().getResource("resources/img/lander_fire_down.png");
+			URL landerFlyingDownURL = this.getClass().getResource("/lunar_lander/resources/img/lander_fire_down.png");
 			landerFlyingDown = ImageIO.read(landerFlyingDownURL);
 			
-			URL landerFlyingRightURL = this.getClass().getResource("resources/img/lander_fire_right.png");
+			URL landerFlyingRightURL = this.getClass().getResource("/lunar_lander/resources/img/lander_fire_right.png");
 			landerFlyingRight = ImageIO.read(landerFlyingRightURL);
 			
-			URL landerFlyingLeftURL = this.getClass().getResource("resources/img/lander_fire_left.png");
+			URL landerFlyingLeftURL = this.getClass().getResource("/lunar_lander/resources/img/lander_fire_left.png");
 			landerFlyingLeft = ImageIO.read(landerFlyingLeftURL);
 			
 		} catch (IOException ex) {
@@ -160,19 +160,19 @@ public class Rocket {
 		{
 			g2d.drawImage(landerCrashed, x, y, null);
 		} else {
-			if (Control.keyboardKeyState(KeyEvent.VK_DOWN)) // Draw fly image
+			if (Control.keyboardKeyState(KeyEvent.VK_UP)) // Draw fly image
 			g2d.drawImage(landerFlyingDown, x, y, null);
 			g2d.drawImage(landerRocket, x, y, null);
 
-			if (Control.keyboardKeyState(KeyEvent.VK_UP)) // Draw fly image
+			if (Control.keyboardKeyState(KeyEvent.VK_DOWN)) // Draw fly image
 			g2d.drawImage(landerFlyingUp, x, y, null);
 			g2d.drawImage(landerRocket, x, y, null);
 
-			if (Control.keyboardKeyState(KeyEvent.VK_LEFT)) // Draw fly image
+			if (Control.keyboardKeyState(KeyEvent.VK_RIGHT)) // Draw fly image
 			g2d.drawImage(landerFlyingLeft, x, y, null);
 			g2d.drawImage(landerRocket, x, y, null);
 
-			if (Control.keyboardKeyState(KeyEvent.VK_RIGHT)) // Draw fly image
+			if (Control.keyboardKeyState(KeyEvent.VK_LEFT)) // Draw fly image
 			g2d.drawImage(landerFlyingRight, x, y, null);
 			g2d.drawImage(landerRocket, x, y, null);
 		}

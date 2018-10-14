@@ -2,7 +2,7 @@
  * @author Rey Koxha 
  * Main game
  */
-package lunarlander;
+package lunar_lander;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -50,10 +50,10 @@ public class Main {
     private void loadcontent() {
 	try {
 
-	    URL backgroundUrl = this.getClass().getResource("resources/img/background.png");
+	    URL backgroundUrl = this.getClass().getResource("/lunar_lander/resources/img/background.png");
 	    background = ImageIO.read(backgroundUrl);
 
-	    URL failedUrl = this.getClass().getResource("resources/img/failed.png");
+	    URL failedUrl = this.getClass().getResource("/lunar_lander/resources/img/failed.png");
 	    failed = ImageIO.read(failedUrl);
 
 	} catch (IOException ex) {
