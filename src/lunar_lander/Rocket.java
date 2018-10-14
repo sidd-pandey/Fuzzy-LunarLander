@@ -160,19 +160,19 @@ public class Rocket {
 		{
 			g2d.drawImage(landerCrashed, x, y, null);
 		} else {
-			if (Control.keyboardKeyState(KeyEvent.VK_UP)) // Draw fly image
+			if (Control.keyboardKeyState(KeyEvent.VK_DOWN)) // Draw fly image
 			g2d.drawImage(landerFlyingDown, x, y, null);
 			g2d.drawImage(landerRocket, x, y, null);
 
-			if (Control.keyboardKeyState(KeyEvent.VK_DOWN)) // Draw fly image
+			if (Control.keyboardKeyState(KeyEvent.VK_UP)) // Draw fly image
 			g2d.drawImage(landerFlyingUp, x, y, null);
 			g2d.drawImage(landerRocket, x, y, null);
 
-			if (Control.keyboardKeyState(KeyEvent.VK_RIGHT)) // Draw fly image
+			if (Control.keyboardKeyState(KeyEvent.VK_LEFT)) // Draw fly image
 			g2d.drawImage(landerFlyingLeft, x, y, null);
 			g2d.drawImage(landerRocket, x, y, null);
 
-			if (Control.keyboardKeyState(KeyEvent.VK_LEFT)) // Draw fly image
+			if (Control.keyboardKeyState(KeyEvent.VK_RIGHT)) // Draw fly image
 			g2d.drawImage(landerFlyingRight, x, y, null);
 			g2d.drawImage(landerRocket, x, y, null);
 		}
