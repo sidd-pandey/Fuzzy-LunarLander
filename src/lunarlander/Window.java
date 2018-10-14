@@ -1,7 +1,7 @@
 /*
  * Initialize frame
  */
-package lunar_lander;
+package lunarlander;
 
 import java.net.URL;
 import javax.swing.ImageIcon;
@@ -14,7 +14,8 @@ public class Window extends JFrame {
 
 	private Window() {
 
-		URL iconURL = getClass().getResource("/lunar_lander/resources/img/icon.png");
+		URL iconURL = getClass().getResource("resources/img/icon.png");
+		System.out.println(iconURL == null);
 		ImageIcon icon = new ImageIcon(iconURL);
 		this.setIconImage(icon.getImage());
 		this.setTitle("Lunar Lander 1.1");
