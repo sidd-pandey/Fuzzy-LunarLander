@@ -15,7 +15,6 @@ public class Window extends JFrame {
 	private Window() {
 
 		URL iconURL = getClass().getResource("resources/img/icon.png");
-		System.out.println(iconURL == null);
 		ImageIcon icon = new ImageIcon(iconURL);
 		this.setIconImage(icon.getImage());
 		this.setTitle("Lunar Lander 1.1");
