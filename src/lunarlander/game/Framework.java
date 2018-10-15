@@ -157,7 +157,6 @@ public class Framework extends Control {
 
 	private void restartGame() {
 		gameState = GameState.MENU;
-
 	}
 
 	private Point mousePosition() {

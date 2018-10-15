@@ -21,8 +21,6 @@ import lunarlander.players.RandomPlayer;
 public class Main {
 
 	private Rocket rocket;
-	
-	private Player player = new RandomPlayer();
 
 	private Landingspace landingSpace; // Area to land
 
@@ -68,7 +66,7 @@ public class Main {
 
 	public void UpdateGame(double gameTime, Point mousePosition) // Get position of rocket
 	{
-		rocket.Update(player);
+		rocket.Update();
 		//check for x coordinate
 		if (rocket.x < 0 || rocket.x > Framework.frameWidth || 
 				rocket.y < 0 || rocket.y > Framework.frameHeight-10) {
@@ -91,7 +89,6 @@ public class Main {
 		g2d.drawImage(background, 0, 0, Framework.frameWidth,
 				Framework.frameHeight, null);
 		landingSpace.draw(g2d);
-
 		rocket.draw(g2d);
 	}
 

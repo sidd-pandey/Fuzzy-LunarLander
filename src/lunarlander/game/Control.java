@@ -53,6 +53,13 @@ public abstract class Control extends JPanel implements KeyListener, MouseListen
 	{
 		return keyboardState[key];
 	}
+	
+	public static int getKey() {
+		for (int i = 0; i < keyboardState.length; i++) {
+			if (keyboardState[i]) return i;
+		}
+		return -1;
+	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {

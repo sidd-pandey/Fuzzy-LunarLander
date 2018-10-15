@@ -13,7 +13,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
+import com.sun.javafx.PlatformUtil;
+
 import lunarlander.players.Player;
+import lunarlander.players.RandomPlayer;
 
 public class Rocket {
 
@@ -54,12 +57,15 @@ public class Rocket {
 	public int landerRocketWidth; // Read image width
 
 	public int landerRocketHeight; // Read image height
+	
+	private Player pilot;
 
 	public Rocket() // Gather rocket dimensions
 	{
 		initialize();
 		loadcontent();
-
+		
+		this.pilot = new RandomPlayer();
 		x = random.nextInt(Framework.frameWidth - landerRocketWidth); // X random start
 	}
 
@@ -105,11 +111,11 @@ public class Rocket {
 		}
 	}
 
-	public void Update(Player player){
+	public void Update(){
 		
 		// if player is not null, let it pilot the rocket, else use keyboard
-		if (player != null) {
-			updateByPlayer(player.nextMove());
+		if (this.pilot != null) {
+			updateByPlayer(pilot.nextMove());
 		}else updateByKeys();
 
 		x += speedX;
@@ -118,6 +124,7 @@ public class Rocket {
 	}
 	
 	private void updateByPlayer(int move) {
+			
 		if (move == KeyEvent.VK_UP) { 
 			speedY -= speedAccelerating;
 		}else {
@@ -140,7 +147,7 @@ public class Rocket {
 	
 	private void updateByKeys() {
 		if (Control.keyboardKeyState(KeyEvent.VK_UP)) { // Key DOWN
-			speedY -= speedAccelerating;
+			speedY -= speedAccelerating;;
 		}else {
 			speedY -= speedGrav;
 		}
@@ -152,7 +159,7 @@ public class Rocket {
 		}
 		if (Control.keyboardKeyState(KeyEvent.VK_RIGHT)){ // Key LEFT
 			speedX += speedAccelerating;
-	        }
+	    }
 		if (Control.keyboardKeyState(KeyEvent.VK_0)){ // Cheat
 			speedY = 0;
 			speedX = 0;
@@ -162,6 +169,9 @@ public class Rocket {
 
 	public void draw(Graphics2D g2d) {
 
+		
+		int keyPressed = this.pilot == null ? Control.getKey(): this.pilot.currentMove();
+		
 		if (landed) // Check if landed
 		{
 			g2d.drawImage(landerLanded, x, y, null);
@@ -169,19 +179,19 @@ public class Rocket {
 		{
 			g2d.drawImage(landerCrashed, x, y, null);
 		} else {
-			if (Control.keyboardKeyState(KeyEvent.VK_DOWN)) // Draw fly image
+			if (keyPressed == KeyEvent.VK_DOWN) // Draw fly image
 			g2d.drawImage(landerFlyingDown, x, y, null);
 			g2d.drawImage(landerRocket, x, y, null);
 
-			if (Control.keyboardKeyState(KeyEvent.VK_UP)) // Draw fly image
+			if (keyPressed == KeyEvent.VK_UP) // Draw fly image
 			g2d.drawImage(landerFlyingUp, x, y, null);
 			g2d.drawImage(landerRocket, x, y, null);
 
-			if (Control.keyboardKeyState(KeyEvent.VK_LEFT)) // Draw fly image
+			if (keyPressed == KeyEvent.VK_LEFT) // Draw fly image
 			g2d.drawImage(landerFlyingLeft, x, y, null);
 			g2d.drawImage(landerRocket, x, y, null);
 
-			if (Control.keyboardKeyState(KeyEvent.VK_RIGHT)) // Draw fly image
+			if (keyPressed == KeyEvent.VK_RIGHT) // Draw fly image
 			g2d.drawImage(landerFlyingRight, x, y, null);
 			g2d.drawImage(landerRocket, x, y, null);
 		}
