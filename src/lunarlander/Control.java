@@ -1,7 +1,7 @@
 /*
  * Creates JPanel for Keyboard/Mouse.
  */
-package lunar_lander;
+package lunarlander;
 
 import java.awt.Cursor;
 import java.awt.Graphics;

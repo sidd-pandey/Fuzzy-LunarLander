@@ -1,7 +1,7 @@
 /*
  * Landing area
  */
-package lunar_lander;
+package lunarlander;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -39,7 +39,7 @@ public class Landingspace {
 
 	private void loadcontent() {
 		try {
-			URL landingSpaceUrl = this.getClass().getResource("/lunar_lander/resources/img/landing_area.png");
+			URL landingSpaceUrl = this.getClass().getResource("resources/img/landing_area.png");
 			landingSpace = ImageIO.read(landingSpaceUrl);
 			landingSpaceWidth = landingSpace.getWidth();
 		} catch (IOException ex) {
