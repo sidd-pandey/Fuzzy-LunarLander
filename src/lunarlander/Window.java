@@ -18,11 +18,9 @@ public class Window extends JFrame {
 		ImageIcon icon = new ImageIcon(iconURL);
 		this.setIconImage(icon.getImage());
 		this.setTitle("Lunar Lander 1.1");
-		{	
-			this.setSize(1280, 720); // 1280x720px
-			this.setLocationRelativeTo(null); // Centered
-			this.setResizable(false); // Not resizable
-		}
+		this.setSize(1280, 720); // 1280x720px
+		this.setLocationRelativeTo(null); // Centered
+		this.setResizable(false); // Not resizable
 
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); // Stop thread when user exists frame
 
@@ -33,12 +31,10 @@ public class Window extends JFrame {
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() { // Run thread
-
-					@Override
-					public void run() {
-						new Window();
-
-					}
-				});
+			@Override
+			public void run() {
+				new Window();
+			}
+		});
 	}
 }

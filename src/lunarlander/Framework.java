@@ -43,13 +43,13 @@ public class Framework extends Control {
 
 
 	private Main game;
-	
+
 
 	private BufferedImage lunarLander;
 
 	public Framework() {
 		super();
-		
+
 		gameState = GameState.DISPLAY;
 
 		Thread gameThread = new Thread() {
@@ -61,29 +61,29 @@ public class Framework extends Control {
 		};
 		gameThread.start();
 	}
-	
+
 	private void initialize() {
 
 	}
 
-    private void loadcontent() {
-	try {
+	private void loadcontent() {
+		try {
 
-	    URL lunarLanderUrl = this.getClass().getResource("resources/img/menu.png");
-	    lunarLander = ImageIO.read(lunarLanderUrl);
-	} catch (IOException ex) {
-	    Logger.getLogger(Framework.class.getName()).log(Level.SEVERE, null,
-		    ex);
+			URL lunarLanderUrl = this.getClass().getResource("resources/img/menu.png");
+			lunarLander = ImageIO.read(lunarLanderUrl);
+		} catch (IOException ex) {
+			Logger.getLogger(Framework.class.getName()).log(Level.SEVERE, null,
+					ex);
+		}
+
 	}
-
-    }
 
 	private void gameloop() {
 		long visualizingTime = 0, lastVisualizingTime = System.nanoTime();
 
 		long beginTime, 
-		     timeTaken;
-		
+		timeTaken;
+
 		double timeLeft;
 
 		while (true) {
@@ -92,31 +92,22 @@ public class Framework extends Control {
 			switch (gameState) {
 			case RUNNING:
 				gameTime += System.nanoTime() - lastTime;
-
 				game.UpdateGame(gameTime, mousePosition());
-
 				lastTime = System.nanoTime();
-				
 				break;
 			case GAMEOVER:
 				break;
 			case MENU:
 				break;
 			case STARTING:
-
 				initialize();
-				
 				loadcontent();
-				
-				
-
 				gameState = GameState.MENU;
 				break;
 			case DISPLAY:
 				if (this.getWidth() > 1 && visualizingTime > SECINNANO) {
 					frameWidth = this.getWidth();
 					frameHeight = this.getHeight();
-
 					gameState = GameState.STARTING;
 				} else {
 					visualizingTime += System.nanoTime() - lastVisualizingTime;
@@ -160,13 +151,13 @@ public class Framework extends Control {
 		lastTime = System.nanoTime();
 
 		game = new Main();
-		
-		
+
+
 	}
-	
+
 	private void restartGame() {
 		gameState = GameState.MENU;
-		
+
 	}
 
 	private Point mousePosition() {
