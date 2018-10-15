@@ -37,35 +37,35 @@ public class FuzzySystem {
 		rightWall.setRange(0, Conf.SCREEN_WIDTH);
 		rightWall.setLockValueInRange(false);
 		rightWall.addTerm(new Trapezoid("far", 0, 0, w/3, 2*w/3));
-		rightWall.addTerm(new Trapezoid("near", 0, 0, w/3, 2*w/3));
+		rightWall.addTerm(new Trapezoid("near", w/3, 2*w/3, w, w));
 		this.engine.addInputVariable(rightWall);
 		
-//		InputVariable leftWall = new InputVariable();
-//		leftWall.setName("leftWall");
-//		leftWall.setEnabled(true);
-//		leftWall.setRange(0, Conf.SCREEN_WIDTH);
-//		leftWall.setLockValueInRange(false);
-//		leftWall.addTerm(new Sigmoid("far"));
-//		leftWall.addTerm(new Sigmoid("near", Double.NaN, -1));
-//		this.engine.addInputVariable(leftWall);
-//		
-//		InputVariable upperWall = new InputVariable();
-//		upperWall.setName("upperWall");
-//		upperWall.setEnabled(true);
-//		upperWall.setRange(0, Conf.SCREEN_HEIGHT);
-//		upperWall.setLockValueInRange(false);
-//		upperWall.addTerm(new Sigmoid("far"));
-//		upperWall.addTerm(new Sigmoid("near", Double.NaN, -1));
-//		this.engine.addInputVariable(upperWall);
-//		
-//		InputVariable lowerWall = new InputVariable();
-//		lowerWall.setName("lowerWall");
-//		lowerWall.setEnabled(true);
-//		lowerWall.setRange(0, Conf.SCREEN_HEIGHT);
-//		lowerWall.setLockValueInRange(false);
-//		lowerWall.addTerm(new Sigmoid("far"));
-//		lowerWall.addTerm(new Sigmoid("near", Double.NaN, -1));
-//		this.engine.addInputVariable(lowerWall);
+		InputVariable leftWall = new InputVariable();
+		leftWall.setName("leftWall");
+		leftWall.setEnabled(true);
+		leftWall.setRange(0, Conf.SCREEN_WIDTH);
+		leftWall.setLockValueInRange(false);
+		leftWall.addTerm(new Trapezoid("far", 0, 0, w/3, 2*w/3));
+		leftWall.addTerm(new Trapezoid("near", w/3, 2*w/3, w, w));
+		this.engine.addInputVariable(leftWall);
+		
+		InputVariable upperWall = new InputVariable();
+		upperWall.setName("upperWall");
+		upperWall.setEnabled(true);
+		upperWall.setRange(0, Conf.SCREEN_HEIGHT);
+		upperWall.setLockValueInRange(false);
+		upperWall.addTerm(new Trapezoid("far", 0, 0, h/3, 2*h/3));
+		upperWall.addTerm(new Trapezoid("near", h/3, 2*h/3, h, h));
+		this.engine.addInputVariable(upperWall);
+		
+		InputVariable lowerWall = new InputVariable();
+		lowerWall.setName("lowerWall");
+		lowerWall.setEnabled(true);
+		lowerWall.setRange(0, Conf.SCREEN_HEIGHT);
+		lowerWall.setLockValueInRange(false);
+		lowerWall.addTerm(new Trapezoid("far", 0, 0, h/3, 2*h/3));
+		lowerWall.addTerm(new Trapezoid("near", h/3, 2*h/3, h, h));
+		this.engine.addInputVariable(lowerWall);
 		
 		OutputVariable outputMove = new OutputVariable();
 		outputMove.setName("outputMove");
@@ -92,9 +92,9 @@ public class FuzzySystem {
 		ruleBlock.setImplication(null);
 		ruleBlock.setActivation(new General());
 		ruleBlock.addRule(Rule.parse("if rightWall is near then outputMove is left", this.engine));
-//		ruleBlock.addRule(Rule.parse("if leftWall is near then outputMove is right", this.engine));
-//		ruleBlock.addRule(Rule.parse("if upperWall is near then outputMove is down", this.engine));
-//		ruleBlock.addRule(Rule.parse("if lowerWall is near then outputMove is up", this.engine));
+		ruleBlock.addRule(Rule.parse("if leftWall is near then outputMove is right", this.engine));
+		ruleBlock.addRule(Rule.parse("if upperWall is near then outputMove is down", this.engine));
+		ruleBlock.addRule(Rule.parse("if lowerWall is near then outputMove is up", this.engine));
 		
 		getEngine().addRuleBlock(ruleBlock);
 
@@ -107,9 +107,9 @@ public class FuzzySystem {
 		
 		int x = 100, y = 100;
 		engine.setInputValue("rightWall", x);
-//		engine.setInputValue("leftWall", Conf.SCREEN_WIDTH - x);
-//		engine.setInputValue("upperWall", y);
-//		engine.setInputValue("lowerWall", Conf.SCREEN_HEIGHT - y);
+		engine.setInputValue("leftWall", Conf.SCREEN_WIDTH - x);
+		engine.setInputValue("upperWall", y);
+		engine.setInputValue("lowerWall", Conf.SCREEN_HEIGHT - y);
 		
 		engine.process();
 		
