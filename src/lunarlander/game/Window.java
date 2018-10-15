@@ -18,7 +18,7 @@ public class Window extends JFrame {
 		ImageIcon icon = new ImageIcon(iconURL);
 		this.setIconImage(icon.getImage());
 		this.setTitle("Lunar Lander 1.1");
-		this.setSize(1280, 720); // 1280x720px
+		this.setSize(Conf.SCREEN_WIDTH, Conf.SCREEN_HEIGHT); // 1280x720px
 		this.setLocationRelativeTo(null); // Centered
 		this.setResizable(false); // Not resizable
 
