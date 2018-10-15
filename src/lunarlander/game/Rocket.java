@@ -125,26 +125,7 @@ public class Rocket {
 			speedY = 0;
 			speedX = 0;
 		}
-//		if (Control.keyboardKeyState(KeyEvent.VK_DOWN)) // Key DOWN
-//			speedY -= speedAccelerating;
-//
-//		else {
-//			speedY -= speedGrav;
-//		}
-//
-//		if (Control.keyboardKeyState(KeyEvent.VK_UP)){ // Key UP
-//			speedY += speedAccelerating;
-//		}
-//		if (Control.keyboardKeyState(KeyEvent.VK_RIGHT)){ // Key RIGHT
-//			speedX -= speedAccelerating;
-//		}
-//		if (Control.keyboardKeyState(KeyEvent.VK_LEFT)){ // Key LEFT
-//			speedX += speedAccelerating;
-//	        }
-//		if (Control.keyboardKeyState(KeyEvent.VK_0)){ // Cheat
-//			speedY = 0;
-//			speedX = 0;
-//		}
+
 		x += speedX;
 		y += speedY;
 
