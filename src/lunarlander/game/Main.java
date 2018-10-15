@@ -2,7 +2,7 @@
  * @author Rey Koxha 
  * Main game
  */
-package lunarlander;
+package lunarlander.game;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

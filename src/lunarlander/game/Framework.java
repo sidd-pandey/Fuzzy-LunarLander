@@ -1,7 +1,7 @@
 /*
  * Game functions and actions
  */
-package lunarlander;
+package lunarlander.game;
 
 import java.awt.Graphics2D;
 import java.awt.Point;

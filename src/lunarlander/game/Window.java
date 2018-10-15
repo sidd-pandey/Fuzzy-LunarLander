@@ -1,7 +1,7 @@
 /*
  * Initialize frame
  */
-package lunarlander;
+package lunarlander.game;
 
 import java.net.URL;
 import javax.swing.ImageIcon;
