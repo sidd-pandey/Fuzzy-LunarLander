@@ -2,9 +2,9 @@ package lunarlander.fuzzy;
 
 import java.awt.event.KeyEvent;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.fuzzylite.Engine;
-import com.fuzzylite.FuzzyLite;
 import com.fuzzylite.activation.General;
 import com.fuzzylite.rule.Rule;
 import com.fuzzylite.rule.RuleBlock;
@@ -21,6 +21,9 @@ public class FuzzySystem {
 	
 	public FuzzySystem() {
 		initialize();
+	    Logger.getLogger("java.awt").setLevel(Level.OFF);
+	    Logger.getLogger("sun.awt").setLevel(Level.OFF);
+	    Logger.getLogger("javax.swing").setLevel(Level.OFF);
 	}
 
 	private void initialize() {
@@ -34,8 +37,8 @@ public class FuzzySystem {
 		rightWall.setEnabled(true);
 		rightWall.setRange(0, Conf.SCREEN_WIDTH);
 		rightWall.setLockValueInRange(false);
-		rightWall.addTerm(new Trapezoid("far", 0, 0, w/3, 2*w/3));
-		rightWall.addTerm(new Trapezoid("near", w/3, 2*w/3, w, w));
+		rightWall.addTerm(new Trapezoid("near", 0, 0, w/3, 2*w/3));
+		rightWall.addTerm(new Trapezoid("far", w/3, 2*w/3, w, w));
 		this.engine.addInputVariable(rightWall);
 		
 		InputVariable leftWall = new InputVariable();
@@ -61,7 +64,7 @@ public class FuzzySystem {
 		lowerWall.setEnabled(true);
 		lowerWall.setRange(0, Conf.SCREEN_HEIGHT);
 		lowerWall.setLockValueInRange(false);
-		lowerWall.addTerm(new Trapezoid("near", 0, 0, h/3, 2*h/3));
+		lowerWall.addTerm(new Trapezoid("near", 0, 0, h/2, 2*h/3));
 		lowerWall.addTerm(new Trapezoid("far", h/3, 2*h/3, h, h));
 		this.engine.addInputVariable(lowerWall);
 		

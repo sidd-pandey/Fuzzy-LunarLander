@@ -19,8 +19,8 @@ public class FuzzyPlayer implements Player {
 	@Override
 	public int nextMove() {
 
-		int x = rocket.x;
-		int y = rocket.y;
+		int x = rocket.x - rocket.landerRocketWidth;
+		int y = rocket.y - rocket.landerRocketHeight;
 
 		Engine engine = fs.getEngine();
 		engine.setInputValue("rightWall", Conf.SCREEN_WIDTH - x);
@@ -32,6 +32,9 @@ public class FuzzyPlayer implements Player {
 
 		Double outputValue = engine.getOutputValue("outputMove");
 		this.currentMove = outputValue.intValue();
+		System.out.println(this.currentMove);
+		engine.restart();
+		
 		return this.currentMove;
 	}
 

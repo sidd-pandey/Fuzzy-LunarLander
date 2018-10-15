@@ -22,18 +22,18 @@ public class LargestWeightedValue extends WeightedDefuzzifier {
         maximum = fuzzyOutput.getMaximum();
 
       
-        double sum = 0.0;
-        double weights = 0.0;
         double maxw =-1, maxz=-1;
         double w, z;
 
         for (Activated activated : fuzzyOutput.getTerms()) {
         	w = activated.getDegree();
         	z = activated.getTerm().membership(w);
-        	maxw = Math.max(maxw, w);
-        	maxz = Math.max(maxz, z);
-        	sum += w * z;
-        	weights += w;
+        	if (maxw < w) {
+        		maxw = w;
+        		maxz = z;
+        	}
+//        	System.out.println(w + " " + z);
+   
         }
         return maxz;
     }
