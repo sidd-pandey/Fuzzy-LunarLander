@@ -13,6 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
+import lunarlander.players.Player;
+
 public class Rocket {
 
 	private Random random; // Random X start position
@@ -103,15 +105,45 @@ public class Rocket {
 		}
 	}
 
-	public void Update() // Inverted rocket controls
-	{
-		if (Control.keyboardKeyState(KeyEvent.VK_UP)) // Key DOWN
-			speedY -= speedAccelerating;
+	public void Update(Player player){
+		
+		// if player is not null, let it pilot the rocket, else use keyboard
+		if (player != null) {
+			updateByPlayer(player.nextMove());
+		}else updateByKeys();
 
-		else {
+		x += speedX;
+		y += speedY;
+
+	}
+	
+	private void updateByPlayer(int move) {
+		if (move == KeyEvent.VK_UP) { 
+			speedY -= speedAccelerating;
+		}else {
 			speedY -= speedGrav;
 		}
-
+		if (move == KeyEvent.VK_DOWN){
+			speedY += speedAccelerating;
+		}
+		if (move == KeyEvent.VK_LEFT){ // Key RIGHT
+			speedX -= speedAccelerating;
+		}
+		if (move == KeyEvent.VK_RIGHT){ // Key LEFT
+			speedX += speedAccelerating;
+	        }
+		if (move == KeyEvent.VK_0){ // Cheat
+			speedY = 0;
+			speedX = 0;
+		}
+	}
+	
+	private void updateByKeys() {
+		if (Control.keyboardKeyState(KeyEvent.VK_UP)) { // Key DOWN
+			speedY -= speedAccelerating;
+		}else {
+			speedY -= speedGrav;
+		}
 		if (Control.keyboardKeyState(KeyEvent.VK_DOWN)){ // Key UP
 			speedY += speedAccelerating;
 		}
@@ -125,10 +157,6 @@ public class Rocket {
 			speedY = 0;
 			speedX = 0;
 		}
-
-		x += speedX;
-		y += speedY;
-
 	}
 	
 

@@ -15,9 +15,14 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
+import lunarlander.players.Player;
+import lunarlander.players.RandomPlayer;
+
 public class Main {
 
-	private Rocket player; // Set player model
+	private Rocket rocket;
+	
+	private Player player = new RandomPlayer();
 
 	private Landingspace landingSpace; // Area to land
 
@@ -42,7 +47,7 @@ public class Main {
 	}
 
 	private void initialize() { // Start new game
-		player = new Rocket();
+		rocket = new Rocket();
 		landingSpace = new Landingspace();
 
 	}
@@ -63,20 +68,20 @@ public class Main {
 
 	public void UpdateGame(double gameTime, Point mousePosition) // Get position of rocket
 	{
-		player.Update();
+		rocket.Update(player);
 		//check for x coordinate
-		if (player.x < 0 || player.x > Framework.frameWidth || 
-				player.y < 0 || player.y > Framework.frameHeight-10) {
-			player.crashed = true;
+		if (rocket.x < 0 || rocket.x > Framework.frameWidth || 
+				rocket.y < 0 || rocket.y > Framework.frameHeight-10) {
+			rocket.crashed = true;
 			Framework.gameState = Framework.GameState.GAMEOVER;
 		}
 
-		if (player.y + player.landerRocketHeight - 10 > landingSpace.y) {
-			if ((player.x > landingSpace.x)
-					&& (player.x < landingSpace.x + landingSpace.landingSpaceWidth - player.landerRocketWidth)) {
-				if (player.speedY <= player.maxLandingSpeed)
-					player.landed = true;
-				else player.crashed = true;
+		if (rocket.y + rocket.landerRocketHeight - 10 > landingSpace.y) {
+			if ((rocket.x > landingSpace.x)
+					&& (rocket.x < landingSpace.x + landingSpace.landingSpaceWidth - rocket.landerRocketWidth)) {
+				if (rocket.speedY <= rocket.maxLandingSpeed)
+					rocket.landed = true;
+				else rocket.crashed = true;
 			}
 			Framework.gameState = Framework.GameState.GAMEOVER;
 		}
@@ -87,7 +92,7 @@ public class Main {
 				Framework.frameHeight, null);
 		landingSpace.draw(g2d);
 
-		player.draw(g2d);
+		rocket.draw(g2d);
 	}
 
 	public void drawgameover(Graphics2D g2d, Point mousePosition,
@@ -95,7 +100,7 @@ public class Main {
 	{
 		draw(g2d, mousePosition);
 
-		if (player.landed) {
+		if (rocket.landed) {
 			g2d.setColor(Color.green);
 			g2d.drawString("Congrats!", Framework.frameWidth / 2 - 100, Framework.frameHeight / 3);
 			g2d.drawString("You landed in " + gameTime / Framework.SECINNANO + " seconds.", Framework.frameWidth / 2 - 100, Framework.frameHeight / 3 + 20);
