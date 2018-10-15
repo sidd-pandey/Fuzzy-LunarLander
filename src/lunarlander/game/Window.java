@@ -4,6 +4,7 @@
 package lunarlander.game;
 
 import java.net.URL;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -27,6 +28,7 @@ public class Window extends JFrame {
 		this.setContentPane(new Framework());
 
 		this.setVisible(true);
+
 	}
 
 	public static void main(String[] args) {

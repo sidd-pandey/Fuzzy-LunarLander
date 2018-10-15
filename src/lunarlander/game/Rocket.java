@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 
 import com.sun.javafx.PlatformUtil;
 
+import lunarlander.players.FuzzyPlayer;
 import lunarlander.players.Player;
 import lunarlander.players.RandomPlayer;
 
@@ -65,7 +66,7 @@ public class Rocket {
 		initialize();
 		loadcontent();
 		
-		this.pilot = new RandomPlayer();
+		this.pilot = new FuzzyPlayer(this);
 		x = random.nextInt(Framework.frameWidth - landerRocketWidth); // X random start
 	}
 
