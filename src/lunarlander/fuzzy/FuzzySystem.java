@@ -37,7 +37,9 @@ public class FuzzySystem {
 		rightWall.setEnabled(true);
 		rightWall.setRange(0, Conf.SCREEN_WIDTH);
 		rightWall.setLockValueInRange(false);
-		rightWall.addTerm(new Trapezoid("near", 0, 0, w/6, w/4));
+//		rightWall.addTerm(new Trapezoid("near", 0, 0, w/6, w/4));
+//		rightWall.addTerm(new Trapezoid("far", w/3, 2*w/3, w, w));
+		rightWall.addTerm(new Trapezoid("near", 0, 0, w/3, 2*w/3));
 		rightWall.addTerm(new Trapezoid("far", w/3, 2*w/3, w, w));
 		this.engine.addInputVariable(rightWall);
 		
@@ -46,7 +48,9 @@ public class FuzzySystem {
 		leftWall.setEnabled(true);
 		leftWall.setRange(0, Conf.SCREEN_WIDTH);
 		leftWall.setLockValueInRange(false);
-		leftWall.addTerm(new Trapezoid("near", 0, 0, w/6, w/4));
+//		leftWall.addTerm(new Trapezoid("near", 0, 0, w/6, w/4));
+//		leftWall.addTerm(new Trapezoid("far", w/3, 2*w/3, w, w));
+		leftWall.addTerm(new Trapezoid("near", 0, 0, w/3, 2*w/3));
 		leftWall.addTerm(new Trapezoid("far", w/3, 2*w/3, w, w));
 		this.engine.addInputVariable(leftWall);
 		
@@ -55,8 +59,10 @@ public class FuzzySystem {
 		upperWall.setEnabled(true);
 		upperWall.setRange(0, Conf.SCREEN_HEIGHT);
 		upperWall.setLockValueInRange(false);
-		upperWall.addTerm(new Trapezoid("near", 0, 0, h/4, h/3));
-		upperWall.addTerm(new Trapezoid("far", h/6, 2*h/3, h, h));
+//		upperWall.addTerm(new Trapezoid("near", 0, 0, h/4, h/3));
+//		upperWall.addTerm(new Trapezoid("far", h/6, 2*h/3, h, h));
+		upperWall.addTerm(new Trapezoid("near", 0, 0, h/3, 2*h/3));
+		upperWall.addTerm(new Trapezoid("far", h/3, 2*h/3, h, h));
 		this.engine.addInputVariable(upperWall);
 		
 		InputVariable lowerWall = new InputVariable();
@@ -64,9 +70,29 @@ public class FuzzySystem {
 		lowerWall.setEnabled(true);
 		lowerWall.setRange(0, Conf.SCREEN_HEIGHT);
 		lowerWall.setLockValueInRange(false);
-		lowerWall.addTerm(new Trapezoid("near", 0, 0, h/3, h/2));
+//		lowerWall.addTerm(new Trapezoid("near", 0, 0, h/3, h/2));
+//		lowerWall.addTerm(new Trapezoid("far", h/3, 2*h/3, h, h));
+		lowerWall.addTerm(new Trapezoid("near", 0, 0, h/3, 2*h/3));
 		lowerWall.addTerm(new Trapezoid("far", h/3, 2*h/3, h, h));
 		this.engine.addInputVariable(lowerWall);
+		
+		InputVariable yspeed = new InputVariable();
+		yspeed.setName("yspeed");
+		yspeed.setEnabled(true);
+		yspeed.setRange(-40, 40);
+		yspeed.setLockValueInRange(false);
+		yspeed.addTerm(new Trapezoid("postiveLarge", 10, 15, 40, 40));
+		yspeed.addTerm(new Trapezoid("negativeLarge", -40, -40, -15, -10));
+		this.engine.addInputVariable(yspeed);
+		
+		InputVariable xspeed = new InputVariable();
+		xspeed.setName("xspeed");
+		xspeed.setEnabled(true);
+		xspeed.setRange(-60, 60);
+		xspeed.setLockValueInRange(false);
+		xspeed.addTerm(new Trapezoid("postiveLarge", 20, 30, 60, 60));
+		xspeed.addTerm(new Trapezoid("negativeLarge", -60, -60, -30, -20));
+		this.engine.addInputVariable(xspeed);
 		
 		OutputVariable yOutputMove = new OutputVariable();
 		yOutputMove.setName("yOutputMove");
@@ -110,29 +136,35 @@ public class FuzzySystem {
 		ruleBlock.addRule(Rule.parse("if upperWall is near then yOutputMove is down", this.engine));
 		ruleBlock.addRule(Rule.parse("if lowerWall is near then yOutputMove is up", this.engine));
 		
+		ruleBlock.addRule(Rule.parse("if yspeed is postiveLarge then yOutputMove is up", this.engine));
+		ruleBlock.addRule(Rule.parse("if yspeed is negativeLarge then yOutputMove is down", this.engine));
+		
+		ruleBlock.addRule(Rule.parse("if xspeed is postiveLarge then xOutputMove is left", this.engine));
+		ruleBlock.addRule(Rule.parse("if xspeed is negativeLarge then xOutputMove is right", this.engine));
+		
 		getEngine().addRuleBlock(ruleBlock);
 
 	}
 	
-	public static void main(String[] args) {
-		
-		FuzzySystem fz = new FuzzySystem();
-		Engine engine = fz.getEngine();
-		
-		int x = 100, y = 100;
-		engine.setInputValue("rightWall", Conf.SCREEN_WIDTH - x);
-		engine.setInputValue("leftWall", x);
-		engine.setInputValue("upperWall", y);
-		engine.setInputValue("lowerWall", Conf.SCREEN_HEIGHT - y);
-		
-		engine.process();
-		
-		System.out.println(engine.getInputVariable("rightWall").getValue());
-		
-		double outputValue = engine.getOutputValue("outputMove");
-		System.out.println(outputValue);
-		
-	}
+//	public static void main(String[] args) {
+//		
+//		FuzzySystem fz = new FuzzySystem();
+//		Engine engine = fz.getEngine();
+//		
+//		int x = 100, y = 100;
+//		engine.setInputValue("rightWall", Conf.SCREEN_WIDTH - x);
+//		engine.setInputValue("leftWall", x);
+//		engine.setInputValue("upperWall", y);
+//		engine.setInputValue("lowerWall", Conf.SCREEN_HEIGHT - y);
+//		
+//		engine.process();
+//		
+//		System.out.println(engine.getInputVariable("rightWall").getValue());
+//		
+//		double outputValue = engine.getOutputValue("outputMove");
+//		System.out.println(outputValue);
+//		
+//	}
 
 	public Engine getEngine() {
 		return engine;
