@@ -26,11 +26,13 @@ public class FuzzySystem {
 	private Engine engine;
 	private int landerRocketWidth, landerRocketHeight;
 	private double landingPlatformMid;
+	private double landingSpaceWidth;
 	
-	public FuzzySystem(int landerRocketWidth, int landerRocketHeight, double landingPlatformMid) {
+	public FuzzySystem(int landerRocketWidth, int landerRocketHeight, double landingPlatformMid, double landingSpaceWidth) {
 		this.landerRocketWidth = landerRocketWidth;
 		this.landerRocketHeight = landerRocketHeight;
 		this.landingPlatformMid = landingPlatformMid;
+		this.landingSpaceWidth = landingSpaceWidth;
 		initialize();
 	    Logger.getLogger("java.awt").setLevel(Level.OFF);
 	    Logger.getLogger("sun.awt").setLevel(Level.OFF);
@@ -115,8 +117,7 @@ public class FuzzySystem {
 		xlandingPlatform.setLockValueInRange(false);
 		xlandingPlatform.addTerm(new Triangle("negativeNear", -w, -landingPlatformMid, 0));
 		xlandingPlatform.addTerm(new Triangle("positiveNear", 0, landingPlatformMid, w));
-		xlandingPlatform.addTerm(new Rectangle("close", landingPlatformMid - landerRocketWidth
-				,landingPlatformMid + landerRocketWidth));
+		xlandingPlatform.addTerm(new Rectangle("close", -landingSpaceWidth/2, landingSpaceWidth/2));
 		this.engine.addInputVariable(xlandingPlatform);
 		
 		InputVariable landingMode = new InputVariable();
@@ -124,8 +125,8 @@ public class FuzzySystem {
 		landingMode.setEnabled(true);
 		landingMode.setRange(0, 1);
 		landingMode.setLockValueInRange(false);
-		landingMode.addTerm(new Spike("on", 1, 1));
-		landingMode.addTerm(new Spike("off",0, 1));
+		landingMode.addTerm(new Rectangle("on", 1, 1));
+		landingMode.addTerm(new Rectangle("off",0, 0));
 		this.engine.addInputVariable(landingMode);
 		
 		OutputVariable yOutputMove = new OutputVariable();
@@ -196,7 +197,7 @@ public class FuzzySystem {
 		ruleBlock.addRule(Rule.parse("if xlandingPlatform is positiveNear then "
 				+ "xOutputMove is right and yOutputMove is down", this.engine));
 		
-		ruleBlock.addRule(Rule.parse("if xlandingPlatform is close then landingModeStatus is on", this.engine));
+		ruleBlock.addRule(Rule.parse("if xlandingPlatform is close and xspeed is small then landingModeStatus is on", this.engine));
 		
 		getEngine().addRuleBlock(ruleBlock);
 
