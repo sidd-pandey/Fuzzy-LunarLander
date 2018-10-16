@@ -4,16 +4,20 @@ import com.fuzzylite.Engine;
 
 import lunarlander.fuzzy.FuzzySystem;
 import lunarlander.game.Conf;
+import lunarlander.game.Landingspace;
 import lunarlander.game.Rocket;
 
 public class FuzzyPlayer implements Player {
 
 	private FuzzySystem fs = new FuzzySystem();
 	private Rocket rocket;
+	private Landingspace landingSpace;
 	private int[] currentMove; 
 
 	public FuzzyPlayer(Rocket rocket) {
 		this.rocket = rocket;
+		this.landingSpace = rocket.getLandingSpace();
+		System.out.println(this.landingSpace == null);
 	}
 
 	@Override

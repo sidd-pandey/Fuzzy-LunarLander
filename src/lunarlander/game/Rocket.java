@@ -61,11 +61,14 @@ public class Rocket {
 	
 	private Player pilot;
 
-	public Rocket() // Gather rocket dimensions
+	private Landingspace landingSpace;
+
+	public Rocket(Landingspace landingSpace) // Gather rocket dimensions
 	{
 		initialize();
 		loadcontent();
 		
+		this.landingSpace = landingSpace;
 		this.pilot = new FuzzyPlayer(this);
 //		this.pilot = new RandomPlayer();
 		x = random.nextInt(Framework.frameWidth - landerRocketWidth); // X random start
@@ -231,6 +234,10 @@ public class Rocket {
 			g2d.drawImage(landerRocket, x, y, null);
 		}
 		
+	}
+	
+	public Landingspace getLandingSpace() {
+		return this.landingSpace;
 	}
 	
 

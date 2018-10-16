@@ -45,9 +45,8 @@ public class Main {
 	}
 
 	private void initialize() { // Start new game
-		rocket = new Rocket();
 		landingSpace = new Landingspace();
-
+		rocket = new Rocket(landingSpace);
 	}
 
 	private void loadcontent() {
