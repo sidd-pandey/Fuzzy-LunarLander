@@ -11,13 +11,11 @@ import java.net.URL;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 
-import com.sun.javafx.PlatformUtil;
+import javax.imageio.ImageIO;
 
 import lunarlander.players.FuzzyPlayer;
 import lunarlander.players.Player;
-import lunarlander.players.RandomPlayer;
 
 public class Rocket {
 

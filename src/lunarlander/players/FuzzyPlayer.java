@@ -15,6 +15,8 @@ public class FuzzyPlayer implements Player {
 	private int[] currentMove;
 	private double landingPlatformMid; 
 	
+	private boolean landingMode = false;
+	
 	public FuzzyPlayer(Rocket rocket) {
 		this.rocket = rocket;
 		this.landingSpace = rocket.getLandingSpace();
@@ -37,16 +39,22 @@ public class FuzzyPlayer implements Player {
 		engine.setInputValue("yspeed", rocket.speedY);
 		engine.setInputValue("xspeed", rocket.speedX);
 		engine.setInputValue("xlandingPlatform", landingPlatformMid - rocketMid);
+		engine.setInputValue("landingMode", landingMode ? 1 : 0);
 		
 		engine.process();
 
 		Double yOutputValue = engine.getOutputValue("yOutputMove");
 		Double xOutputValue = engine.getOutputValue("xOutputMove");
 		
+		Double landinModeStatus = engine.getOutputValue("landingModeStatus");
+		System.out.println("landingModeStatus: " + landinModeStatus);
+		if (landinModeStatus == 0) this.landingMode = false;
+		else if (landinModeStatus == 1) this.landingMode = true;
+		
 		this.currentMove = new int[] {yOutputValue.intValue(), xOutputValue.intValue()};
 
 		engine.restart();
-		
+		System.out.println("landing mode is: " + landingMode);
 		return this.currentMove;
 	}
 

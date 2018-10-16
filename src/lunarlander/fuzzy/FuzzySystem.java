@@ -5,7 +5,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.fuzzylite.Engine;
-import com.fuzzylite.FuzzyLite;
 import com.fuzzylite.activation.General;
 import com.fuzzylite.norm.s.Maximum;
 import com.fuzzylite.norm.t.Minimum;
@@ -13,6 +12,8 @@ import com.fuzzylite.rule.Rule;
 import com.fuzzylite.rule.RuleBlock;
 import com.fuzzylite.term.Binary;
 import com.fuzzylite.term.Constant;
+import com.fuzzylite.term.Rectangle;
+import com.fuzzylite.term.Spike;
 import com.fuzzylite.term.Trapezoid;
 import com.fuzzylite.term.Triangle;
 import com.fuzzylite.variable.InputVariable;
@@ -104,6 +105,7 @@ public class FuzzySystem {
 		xspeed.setLockValueInRange(false);
 		xspeed.addTerm(new Trapezoid("postiveLarge", 5, 15, 40, 40));
 		xspeed.addTerm(new Trapezoid("negativeLarge", -40, -40, -15, -5));
+		xspeed.addTerm(new Rectangle("small", -5, 5));
 		this.engine.addInputVariable(xspeed);
 		
 		InputVariable xlandingPlatform = new InputVariable();
@@ -113,7 +115,18 @@ public class FuzzySystem {
 		xlandingPlatform.setLockValueInRange(false);
 		xlandingPlatform.addTerm(new Triangle("negativeNear", -w, -landingPlatformMid, 0));
 		xlandingPlatform.addTerm(new Triangle("positiveNear", 0, landingPlatformMid, w));
+		xlandingPlatform.addTerm(new Rectangle("close", landingPlatformMid - landerRocketWidth
+				,landingPlatformMid + landerRocketWidth));
 		this.engine.addInputVariable(xlandingPlatform);
+		
+		InputVariable landingMode = new InputVariable();
+		landingMode.setName("landingMode");
+		landingMode.setEnabled(true);
+		landingMode.setRange(0, 1);
+		landingMode.setLockValueInRange(false);
+		landingMode.addTerm(new Spike("on", 1, 1));
+		landingMode.addTerm(new Spike("off",0, 1));
+		this.engine.addInputVariable(landingMode);
 		
 		OutputVariable yOutputMove = new OutputVariable();
 		yOutputMove.setName("yOutputMove");
@@ -143,6 +156,20 @@ public class FuzzySystem {
 		xOutputMove.addTerm(new Constant("right", KeyEvent.VK_RIGHT));
 		xOutputMove.addTerm(new Constant("nothing", -1));
 		getEngine().addOutputVariable(xOutputMove);
+		
+		OutputVariable landingModeStatus = new OutputVariable();
+		landingModeStatus.setName("landingModeStatus");
+		landingModeStatus.setDescription("");
+		landingModeStatus.setEnabled(true);
+		landingModeStatus.setRange(0, 1);
+		landingModeStatus.setLockValueInRange(false);
+		landingModeStatus.setAggregation(null);
+		landingModeStatus.setDefuzzifier(new LargestWeightedValue());
+		landingModeStatus.setDefaultValue(-1);
+		landingModeStatus.setLockPreviousValue(true);
+		landingModeStatus.addTerm(new Constant("on", 1));
+		landingModeStatus.addTerm(new Constant("off", 0));
+		getEngine().addOutputVariable(landingModeStatus);
 
 		
 		RuleBlock ruleBlock = new RuleBlock();
@@ -168,29 +195,12 @@ public class FuzzySystem {
 				+ "xOutputMove is left and yOutputMove is down", this.engine));
 		ruleBlock.addRule(Rule.parse("if xlandingPlatform is positiveNear then "
 				+ "xOutputMove is right and yOutputMove is down", this.engine));
+		
+		ruleBlock.addRule(Rule.parse("if xlandingPlatform is close then landingModeStatus is on", this.engine));
+		
 		getEngine().addRuleBlock(ruleBlock);
 
 	}
-	
-//	public static void main(String[] args) {
-//		
-//		FuzzySystem fz = new FuzzySystem();
-//		Engine engine = fz.getEngine();
-//		
-//		int x = 100, y = 100;
-//		engine.setInputValue("rightWall", Conf.SCREEN_WIDTH - x);
-//		engine.setInputValue("leftWall", x);
-//		engine.setInputValue("upperWall", y);
-//		engine.setInputValue("lowerWall", Conf.SCREEN_HEIGHT - y);
-//		
-//		engine.process();
-//		
-//		System.out.println(engine.getInputVariable("rightWall").getValue());
-//		
-//		double outputValue = engine.getOutputValue("outputMove");
-//		System.out.println(outputValue);
-//		
-//	}
 
 	public Engine getEngine() {
 		return engine;
