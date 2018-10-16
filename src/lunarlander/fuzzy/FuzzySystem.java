@@ -90,8 +90,8 @@ public class FuzzySystem {
 		xspeed.setEnabled(true);
 		xspeed.setRange(-60, 60);
 		xspeed.setLockValueInRange(false);
-		xspeed.addTerm(new Trapezoid("postiveLarge", 20, 30, 60, 60));
-		xspeed.addTerm(new Trapezoid("negativeLarge", -60, -60, -30, -20));
+		xspeed.addTerm(new Trapezoid("postiveLarge", 40, 50, 60, 60));
+		xspeed.addTerm(new Trapezoid("negativeLarge", -60, -60, -50, -40));
 		this.engine.addInputVariable(xspeed);
 		
 		OutputVariable yOutputMove = new OutputVariable();

@@ -35,7 +35,7 @@ public class Rocket {
 
 	public int maxLandingSpeed; // Max speed for land
 
-	private double speedX; // Horizontal speed
+	public double speedX; // Horizontal speed
 
 	public double speedY; // Vertical speed
 
