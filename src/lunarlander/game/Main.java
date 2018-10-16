@@ -68,7 +68,7 @@ public class Main {
 	{
 		rocket.Update();
 		//check for x coordinate
-		if (rocket.x < 0 || rocket.x > Framework.frameWidth || 
+		if (rocket.x < 0 || rocket.x > Framework.frameWidth - rocket.landerRocketWidth || 
 				rocket.y < 0 || rocket.y > Framework.frameHeight-10) {
 			rocket.crashed = true;
 			Framework.gameState = Framework.GameState.GAMEOVER;

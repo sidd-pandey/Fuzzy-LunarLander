@@ -69,6 +69,7 @@ public class Rocket {
 		this.pilot = new FuzzyPlayer(this);
 //		this.pilot = new RandomPlayer();
 		x = random.nextInt(Framework.frameWidth - landerRocketWidth); // X random start
+//		x = 0; // X start from leftmost position
 	}
 
 	private void initialize() {

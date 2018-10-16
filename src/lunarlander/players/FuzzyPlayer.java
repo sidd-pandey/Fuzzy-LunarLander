@@ -19,14 +19,14 @@ public class FuzzyPlayer implements Player {
 	@Override
 	public int[] nextMove() {
 
-		int x = rocket.x - rocket.landerRocketWidth;
-		int y = rocket.y - rocket.landerRocketHeight;
+		int x = rocket.x;
+		int y = rocket.y;
 
 		Engine engine = fs.getEngine();
-		engine.setInputValue("rightWall", Conf.SCREEN_WIDTH - x);
+		engine.setInputValue("rightWall", Conf.SCREEN_WIDTH - x - rocket.landerRocketWidth);
 		engine.setInputValue("leftWall", x);
 		engine.setInputValue("upperWall", y);
-		engine.setInputValue("lowerWall", Conf.SCREEN_HEIGHT - y);
+		engine.setInputValue("lowerWall", Conf.SCREEN_HEIGHT - y - rocket.landerRocketHeight);
 
 		engine.process();
 

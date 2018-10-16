@@ -37,7 +37,7 @@ public class FuzzySystem {
 		rightWall.setEnabled(true);
 		rightWall.setRange(0, Conf.SCREEN_WIDTH);
 		rightWall.setLockValueInRange(false);
-		rightWall.addTerm(new Trapezoid("near", 0, 0, w/3, 2*w/3));
+		rightWall.addTerm(new Trapezoid("near", 0, 0, w/6, w/4));
 		rightWall.addTerm(new Trapezoid("far", w/3, 2*w/3, w, w));
 		this.engine.addInputVariable(rightWall);
 		
@@ -46,7 +46,7 @@ public class FuzzySystem {
 		leftWall.setEnabled(true);
 		leftWall.setRange(0, Conf.SCREEN_WIDTH);
 		leftWall.setLockValueInRange(false);
-		leftWall.addTerm(new Trapezoid("near", 0, 0, w/3, 2*w/3));
+		leftWall.addTerm(new Trapezoid("near", 0, 0, w/6, w/4));
 		leftWall.addTerm(new Trapezoid("far", w/3, 2*w/3, w, w));
 		this.engine.addInputVariable(leftWall);
 		
@@ -55,7 +55,7 @@ public class FuzzySystem {
 		upperWall.setEnabled(true);
 		upperWall.setRange(0, Conf.SCREEN_HEIGHT);
 		upperWall.setLockValueInRange(false);
-		upperWall.addTerm(new Trapezoid("near", 0, 0, h/6, h/4));
+		upperWall.addTerm(new Trapezoid("near", 0, 0, h/4, h/3));
 		upperWall.addTerm(new Trapezoid("far", h/6, 2*h/3, h, h));
 		this.engine.addInputVariable(upperWall);
 		
@@ -64,7 +64,7 @@ public class FuzzySystem {
 		lowerWall.setEnabled(true);
 		lowerWall.setRange(0, Conf.SCREEN_HEIGHT);
 		lowerWall.setLockValueInRange(false);
-		lowerWall.addTerm(new Trapezoid("near", 0, 0, h/2, 2*h/3));
+		lowerWall.addTerm(new Trapezoid("near", 0, 0, h/3, h/2));
 		lowerWall.addTerm(new Trapezoid("far", h/3, 2*h/3, h, h));
 		this.engine.addInputVariable(lowerWall);
 		
