@@ -67,6 +67,7 @@ public class Rocket {
 		loadcontent();
 		
 		this.pilot = new FuzzyPlayer(this);
+//		this.pilot = new RandomPlayer();
 		x = random.nextInt(Framework.frameWidth - landerRocketWidth); // X random start
 	}
 
@@ -124,26 +125,23 @@ public class Rocket {
 
 	}
 	
-	private void updateByPlayer(int move) {
-			
-		if (move == KeyEvent.VK_UP) { 
+	private void updateByPlayer(int[] moves) {
+		int yDirMove = moves[0];
+		int xDirMove = moves[1];
+		if (yDirMove == KeyEvent.VK_UP) { 
 			speedY -= speedAccelerating;
 		}else {
 			speedY -= speedGrav;
 		}
-		if (move == KeyEvent.VK_DOWN){
+		if (yDirMove == KeyEvent.VK_DOWN){
 			speedY += speedAccelerating;
 		}
-		if (move == KeyEvent.VK_LEFT){ // Key RIGHT
+		if (xDirMove == KeyEvent.VK_LEFT){ // Key RIGHT
 			speedX -= speedAccelerating;
 		}
-		if (move == KeyEvent.VK_RIGHT){ // Key LEFT
+		if (xDirMove == KeyEvent.VK_RIGHT){ // Key LEFT
 			speedX += speedAccelerating;
 	        }
-		if (move == KeyEvent.VK_0){ // Cheat
-			speedY = 0;
-			speedX = 0;
-		}
 	}
 	
 	private void updateByKeys() {
@@ -169,9 +167,17 @@ public class Rocket {
 	
 
 	public void draw(Graphics2D g2d) {
-
 		
-		int keyPressed = this.pilot == null ? Control.getKey(): this.pilot.currentMove();
+		if(this.pilot != null) drawBotControlledRocket(g2d);
+		else drawKeyControlledRocket(g2d);
+		
+	}
+
+	private void drawBotControlledRocket(Graphics2D g2d) {
+		
+		int[] currentMove = this.pilot.currentMove();
+		int yDirMove = currentMove[0];
+		int xDirMove = currentMove[1];
 		
 		if (landed) // Check if landed
 		{
@@ -180,22 +186,50 @@ public class Rocket {
 		{
 			g2d.drawImage(landerCrashed, x, y, null);
 		} else {
-			if (keyPressed == KeyEvent.VK_DOWN) // Draw fly image
+			if (yDirMove == KeyEvent.VK_DOWN) // Draw fly image
 			g2d.drawImage(landerFlyingDown, x, y, null);
 			g2d.drawImage(landerRocket, x, y, null);
 
-			if (keyPressed == KeyEvent.VK_UP) // Draw fly image
+			if (yDirMove == KeyEvent.VK_UP) // Draw fly image
 			g2d.drawImage(landerFlyingUp, x, y, null);
 			g2d.drawImage(landerRocket, x, y, null);
 
-			if (keyPressed == KeyEvent.VK_LEFT) // Draw fly image
+			if (xDirMove == KeyEvent.VK_LEFT) // Draw fly image
 			g2d.drawImage(landerFlyingLeft, x, y, null);
 			g2d.drawImage(landerRocket, x, y, null);
 
-			if (keyPressed == KeyEvent.VK_RIGHT) // Draw fly image
+			if (xDirMove == KeyEvent.VK_RIGHT) // Draw fly image
 			g2d.drawImage(landerFlyingRight, x, y, null);
 			g2d.drawImage(landerRocket, x, y, null);
 		}
+
+	}
+
+	private void drawKeyControlledRocket(Graphics2D g2d) {
+		if (landed) // Check if landed
+		{
+			g2d.drawImage(landerLanded, x, y, null);
+		} else if (crashed) // Check if crashed
+		{
+			g2d.drawImage(landerCrashed, x, y, null);
+		} else {
+			if (Control.keyboardKeyState(KeyEvent.VK_DOWN)) // Draw fly image
+			g2d.drawImage(landerFlyingDown, x, y, null);
+			g2d.drawImage(landerRocket, x, y, null);
+
+			if (Control.keyboardKeyState(KeyEvent.VK_UP)) // Draw fly image
+			g2d.drawImage(landerFlyingUp, x, y, null);
+			g2d.drawImage(landerRocket, x, y, null);
+
+			if (Control.keyboardKeyState(KeyEvent.VK_LEFT)) // Draw fly image
+			g2d.drawImage(landerFlyingLeft, x, y, null);
+			g2d.drawImage(landerRocket, x, y, null);
+
+			if (Control.keyboardKeyState(KeyEvent.VK_RIGHT)) // Draw fly image
+			g2d.drawImage(landerFlyingRight, x, y, null);
+			g2d.drawImage(landerRocket, x, y, null);
+		}
+		
 	}
 	
 

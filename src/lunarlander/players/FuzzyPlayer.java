@@ -10,14 +10,14 @@ public class FuzzyPlayer implements Player {
 
 	private FuzzySystem fs = new FuzzySystem();
 	private Rocket rocket;
-	private int currentMove;
+	private int[] currentMove; 
 
 	public FuzzyPlayer(Rocket rocket) {
 		this.rocket = rocket;
 	}
 
 	@Override
-	public int nextMove() {
+	public int[] nextMove() {
 
 		int x = rocket.x - rocket.landerRocketWidth;
 		int y = rocket.y - rocket.landerRocketHeight;
@@ -30,16 +30,18 @@ public class FuzzyPlayer implements Player {
 
 		engine.process();
 
-		Double outputValue = engine.getOutputValue("outputMove");
-		this.currentMove = outputValue.intValue();
-		System.out.println(this.currentMove);
+		Double yOutputValue = engine.getOutputValue("yOutputMove");
+		Double xOutputValue = engine.getOutputValue("xOutputMove");
+		
+		this.currentMove = new int[] {yOutputValue.intValue(), xOutputValue.intValue()};
+
 		engine.restart();
 		
 		return this.currentMove;
 	}
 
 	@Override
-	public int currentMove() {
+	public int[] currentMove() {
 		return this.currentMove;
 	}
 

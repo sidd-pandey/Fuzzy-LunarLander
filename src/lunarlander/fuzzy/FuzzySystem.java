@@ -68,21 +68,34 @@ public class FuzzySystem {
 		lowerWall.addTerm(new Trapezoid("far", h/3, 2*h/3, h, h));
 		this.engine.addInputVariable(lowerWall);
 		
-		OutputVariable outputMove = new OutputVariable();
-		outputMove.setName("outputMove");
-		outputMove.setDescription("");
-		outputMove.setEnabled(true);
-		outputMove.setRange(0, 525);
-		outputMove.setLockValueInRange(false);
-		outputMove.setAggregation(null);
-		outputMove.setDefuzzifier(new LargestWeightedValue());
-		outputMove.setDefaultValue(Double.NaN);
-		outputMove.setLockPreviousValue(true);
-		outputMove.addTerm(new Constant("up", KeyEvent.VK_UP));
-		outputMove.addTerm(new Constant("down", KeyEvent.VK_DOWN));
-		outputMove.addTerm(new Constant("left", KeyEvent.VK_LEFT));
-		outputMove.addTerm(new Constant("right", KeyEvent.VK_RIGHT));
-		getEngine().addOutputVariable(outputMove);
+		OutputVariable yOutputMove = new OutputVariable();
+		yOutputMove.setName("yOutputMove");
+		yOutputMove.setDescription("");
+		yOutputMove.setEnabled(true);
+		yOutputMove.setRange(0, 525);
+		yOutputMove.setLockValueInRange(false);
+		yOutputMove.setAggregation(null);
+		yOutputMove.setDefuzzifier(new LargestWeightedValue());
+		yOutputMove.setDefaultValue(Double.NaN);
+		yOutputMove.setLockPreviousValue(true);
+		yOutputMove.addTerm(new Constant("up", KeyEvent.VK_UP));
+		yOutputMove.addTerm(new Constant("down", KeyEvent.VK_DOWN));
+		getEngine().addOutputVariable(yOutputMove);
+		
+		OutputVariable xOutputMove = new OutputVariable();
+		xOutputMove.setName("xOutputMove");
+		xOutputMove.setDescription("");
+		xOutputMove.setEnabled(true);
+		xOutputMove.setRange(0, 525);
+		xOutputMove.setLockValueInRange(false);
+		xOutputMove.setAggregation(null);
+		xOutputMove.setDefuzzifier(new LargestWeightedValue());
+		xOutputMove.setDefaultValue(Double.NaN);
+		xOutputMove.setLockPreviousValue(true);
+		xOutputMove.addTerm(new Constant("left", KeyEvent.VK_LEFT));
+		xOutputMove.addTerm(new Constant("right", KeyEvent.VK_RIGHT));
+		getEngine().addOutputVariable(xOutputMove);
+
 		
 		RuleBlock ruleBlock = new RuleBlock();
 		ruleBlock.setName("");
@@ -92,10 +105,10 @@ public class FuzzySystem {
 		ruleBlock.setDisjunction(null);
 		ruleBlock.setImplication(null);
 		ruleBlock.setActivation(new General());
-//		ruleBlock.addRule(Rule.parse("if rightWall is near then outputMove is left", this.engine));
-//		ruleBlock.addRule(Rule.parse("if leftWall is near then outputMove is right", this.engine));
-		ruleBlock.addRule(Rule.parse("if upperWall is near then outputMove is down", this.engine));
-		ruleBlock.addRule(Rule.parse("if lowerWall is near then outputMove is up", this.engine));
+		ruleBlock.addRule(Rule.parse("if rightWall is near then xOutputMove is left", this.engine));
+		ruleBlock.addRule(Rule.parse("if leftWall is near then xOutputMove is right", this.engine));
+		ruleBlock.addRule(Rule.parse("if upperWall is near then yOutputMove is down", this.engine));
+		ruleBlock.addRule(Rule.parse("if lowerWall is near then yOutputMove is up", this.engine));
 		
 		getEngine().addRuleBlock(ruleBlock);
 
