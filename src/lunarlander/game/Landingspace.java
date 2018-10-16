@@ -30,7 +30,8 @@ public class Landingspace {
 		loadcontent();
 
 		x = random.nextInt(Framework.frameWidth - landingSpaceWidth); // X random start
-//		x = (Framework.frameWidth - landingSpaceWidth);
+		x = (Framework.frameWidth - landingSpaceWidth);
+		x = 5;
 	}
 
 	private void initialize() {

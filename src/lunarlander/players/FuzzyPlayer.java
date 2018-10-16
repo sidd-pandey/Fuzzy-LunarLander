@@ -40,6 +40,7 @@ public class FuzzyPlayer implements Player {
 		engine.setInputValue("yspeed", rocket.speedY);
 		engine.setInputValue("xspeed", rocket.speedX);
 		engine.setInputValue("xlandingPlatform", landingPlatformMid - rocketMid);
+		engine.setInputValue("ylandingPlatform", y + rocket.landerRocketHeight);
 		engine.setInputValue("landingMode", landingMode ? 1 : 0);
 		
 		engine.process();
