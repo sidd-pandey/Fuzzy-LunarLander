@@ -9,15 +9,17 @@ import lunarlander.game.Rocket;
 
 public class FuzzyPlayer implements Player {
 
-	private FuzzySystem fs = new FuzzySystem();
 	private Rocket rocket;
 	private Landingspace landingSpace;
-	private int[] currentMove; 
-
+	private FuzzySystem fs;
+	private int[] currentMove;
+	private double landingPlatformMid; 
+	
 	public FuzzyPlayer(Rocket rocket) {
 		this.rocket = rocket;
 		this.landingSpace = rocket.getLandingSpace();
-		System.out.println(this.landingSpace == null);
+		this.landingPlatformMid = landingSpace.x + 0.5*landingSpace.landingSpaceWidth;
+		fs = new FuzzySystem(rocket.landerRocketWidth, rocket.landerRocketHeight, landingPlatformMid);
 	}
 
 	@Override
@@ -25,7 +27,8 @@ public class FuzzyPlayer implements Player {
 
 		int x = rocket.x;
 		int y = rocket.y;
-
+		double rocketMid = x + 0.5*rocket.landerRocketWidth;
+		
 		Engine engine = fs.getEngine();
 		engine.setInputValue("rightWall", Conf.SCREEN_WIDTH - x - rocket.landerRocketWidth);
 		engine.setInputValue("leftWall", x);
@@ -33,7 +36,8 @@ public class FuzzyPlayer implements Player {
 		engine.setInputValue("lowerWall", Conf.SCREEN_HEIGHT - y - rocket.landerRocketHeight);
 		engine.setInputValue("yspeed", rocket.speedY);
 		engine.setInputValue("xspeed", rocket.speedX);
-
+		engine.setInputValue("xlandingPlatform", landingPlatformMid - rocketMid);
+		
 		engine.process();
 
 		Double yOutputValue = engine.getOutputValue("yOutputMove");
