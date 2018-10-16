@@ -27,6 +27,8 @@ public class FuzzyPlayer implements Player {
 		engine.setInputValue("leftWall", x);
 		engine.setInputValue("upperWall", y);
 		engine.setInputValue("lowerWall", Conf.SCREEN_HEIGHT - y - rocket.landerRocketHeight);
+		engine.setInputValue("yspeed", rocket.speedY);
+		engine.setInputValue("xspeed", rocket.speedX);
 
 		engine.process();
 
