@@ -1,0 +1,33 @@
+rightWall.addTerm(new Trapezoid("near", 0, 0, w/6, w/4));
+rightWall.addTerm(new Triangle("middle", w/3, w/2, 2*w/3));
+rightWall.addTerm(new Trapezoid("far", w/3, 2*w/3, w, w));
+
+leftWall.addTerm(new Trapezoid("near", 0, 0, w/6, w/4));
+leftWall.addTerm(new Triangle("middle", w/3, w/2, 2*w/3));
+leftWall.addTerm(new Trapezoid("far", w/3, 2*w/3, w, w));
+
+upperWall.addTerm(new Trapezoid("near", 0, 0, h/4, 0.3*h));
+upperWall.addTerm(new Triangle("middle", h/3, h/2, 2*h/3));
+upperWall.addTerm(new Trapezoid("far", h/3, 2*h/3, h, h));
+
+lowerWall.addTerm(new Trapezoid("near", 0, 0, 0.44*h, 0.6*h));
+lowerWall.addTerm(new Triangle("middle", h/3, h/2, 2*h/3));
+lowerWall.addTerm(new Trapezoid("far", h/3, 2*h/3, h, h));
+
+yOutputMove.addTerm(new Constant("up", KeyEvent.VK_UP));
+yOutputMove.addTerm(new Constant("down", KeyEvent.VK_DOWN));
+yOutputMove.addTerm(new Constant("nothing", -1));
+
+xOutputMove.addTerm(new Constant("left", KeyEvent.VK_LEFT));
+xOutputMove.addTerm(new Constant("right", KeyEvent.VK_RIGHT));
+xOutputMove.addTerm(new Constant("nothing", -1));
+
+ruleBlock.addRule(Rule.parse("if rightWall is near then xOutputMove is left", this.engine));
+ruleBlock.addRule(Rule.parse("if leftWall is middle then xOutputMove is nothing", this.engine));
+ruleBlock.addRule(Rule.parse("if leftWall is near then xOutputMove is right", this.engine));
+ruleBlock.addRule(Rule.parse("if upperWall is near then yOutputMove is down", this.engine));
+ruleBlock.addRule(Rule.parse("if lowerWall is near then yOutputMove is up", this.engine));
+ruleBlock.addRule(Rule.parse("if lowerWall is middle then yOutputMove is nothing", this.engine));
+ruleBlock.addRule(Rule.parse("if upperWall is middle then yOutputMove is nothing", this.engine));
+
+
