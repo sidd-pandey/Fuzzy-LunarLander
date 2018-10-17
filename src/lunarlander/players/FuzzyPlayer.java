@@ -5,6 +5,7 @@ import com.fuzzylite.Engine;
 import lunarlander.fuzzy.FuzzySystem;
 import lunarlander.game.Conf;
 import lunarlander.game.Landingspace;
+import lunarlander.game.Obstacles;
 import lunarlander.game.Rocket;
 
 public class FuzzyPlayer implements Player {
@@ -17,7 +18,7 @@ public class FuzzyPlayer implements Player {
 	
 	private boolean landingMode = false;
 	
-	public FuzzyPlayer(Rocket rocket) {
+	public FuzzyPlayer(Rocket rocket, Obstacles obstacles) {
 		this.rocket = rocket;
 		this.landingSpace = rocket.getLandingSpace();
 		this.landingPlatformMid = landingSpace.x + 0.5*landingSpace.landingSpaceWidth;

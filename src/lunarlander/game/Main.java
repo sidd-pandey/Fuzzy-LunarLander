@@ -27,6 +27,8 @@ public class Main {
 	private BufferedImage background; // Background image
 
 	private BufferedImage failed; // Failed image
+	
+	private Obstacles obstacles;
 
 	public Main() {
 
@@ -46,7 +48,8 @@ public class Main {
 
 	private void initialize() { // Start new game
 		landingSpace = new Landingspace();
-		rocket = new Rocket(landingSpace);
+		obstacles = new Obstacles();
+		rocket = new Rocket(landingSpace, obstacles);
 	}
 
 	private void loadcontent() {
@@ -72,6 +75,11 @@ public class Main {
 			rocket.crashed = true;
 			Framework.gameState = Framework.GameState.GAMEOVER;
 		}
+		
+		if (obstacles.checkForCollision(rocket.x+2, rocket.y+2, rocket.landerRocketWidth-2, rocket.landerRocketHeight-2)) {
+			rocket.crashed = true;
+			Framework.gameState = Framework.GameState.GAMEOVER;
+		}
 
 		if (rocket.y + rocket.landerRocketHeight - 10 > landingSpace.y) {
 			if ((rocket.x > landingSpace.x)
@@ -82,6 +90,7 @@ public class Main {
 			}
 			Framework.gameState = Framework.GameState.GAMEOVER;
 		}
+		
 	}
 
 	public void draw(Graphics2D g2d, Point mousePosition) {
@@ -89,6 +98,7 @@ public class Main {
 				Framework.frameHeight, null);
 		landingSpace.draw(g2d);
 		rocket.draw(g2d);
+		obstacles.draw(g2d);
 	}
 
 	public void drawgameover(Graphics2D g2d, Point mousePosition,

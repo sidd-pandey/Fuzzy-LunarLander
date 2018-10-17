@@ -61,13 +61,13 @@ public class Rocket {
 
 	private Landingspace landingSpace;
 
-	public Rocket(Landingspace landingSpace) // Gather rocket dimensions
+	public Rocket(Landingspace landingSpace, Obstacles obstacles) // Gather rocket dimensions
 	{
 		initialize();
 		loadcontent();
 		
 		this.landingSpace = landingSpace;
-		this.pilot = new FuzzyPlayer(this);
+		this.pilot = new FuzzyPlayer(this, obstacles);
 //		this.pilot = new RandomPlayer();
 		x = random.nextInt(Framework.frameWidth - landerRocketWidth); // X random start
 //		x = Framework.frameWidth - landerRocketWidth; // X start from leftmost position
