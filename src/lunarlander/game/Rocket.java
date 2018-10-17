@@ -60,6 +60,8 @@ public class Rocket {
 	private Player pilot;
 
 	private Landingspace landingSpace;
+	
+	private Obstacles obstacles;
 
 	public Rocket(Landingspace landingSpace, Obstacles obstacles) // Gather rocket dimensions
 	{
@@ -67,9 +69,13 @@ public class Rocket {
 		loadcontent();
 		
 		this.landingSpace = landingSpace;
-		this.pilot = new FuzzyPlayer(this, obstacles);
+		this.obstacles = obstacles;
+		
+		this.pilot = new FuzzyPlayer(this);
+
 //		this.pilot = new RandomPlayer();
 		x = random.nextInt(Framework.frameWidth - landerRocketWidth); // X random start
+		x = Framework.frameWidth / 2;
 //		x = Framework.frameWidth - landerRocketWidth; // X start from leftmost position
 //		x = landerRocketWidth;
 //		y = Framework.frameHeight/2 - 64;
@@ -238,6 +244,10 @@ public class Rocket {
 	
 	public Landingspace getLandingSpace() {
 		return this.landingSpace;
+	}
+
+	public Obstacles getObstacles() {
+		return this.obstacles;
 	}
 	
 

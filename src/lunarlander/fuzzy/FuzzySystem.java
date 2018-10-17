@@ -10,10 +10,8 @@ import com.fuzzylite.norm.s.Maximum;
 import com.fuzzylite.norm.t.Minimum;
 import com.fuzzylite.rule.Rule;
 import com.fuzzylite.rule.RuleBlock;
-import com.fuzzylite.term.Binary;
 import com.fuzzylite.term.Constant;
 import com.fuzzylite.term.Rectangle;
-import com.fuzzylite.term.Spike;
 import com.fuzzylite.term.Trapezoid;
 import com.fuzzylite.term.Triangle;
 import com.fuzzylite.variable.InputVariable;
@@ -24,15 +22,20 @@ import lunarlander.game.Conf;
 public class FuzzySystem {
 
 	private Engine engine;
+	
 	private int landerRocketWidth, landerRocketHeight;
+	
 	private double landingPlatformMid;
 	private double landingSpaceWidth;
 	
-	public FuzzySystem(int landerRocketWidth, int landerRocketHeight, double landingPlatformMid, double landingSpaceWidth) {
+	public FuzzySystem(int landerRocketWidth, int landerRocketHeight, 
+			double landingPlatformMid, double landingSpaceWidth) {
+		
 		this.landerRocketWidth = landerRocketWidth;
 		this.landerRocketHeight = landerRocketHeight;
 		this.landingPlatformMid = landingPlatformMid;
 		this.landingSpaceWidth = landingSpaceWidth;
+		
 		initialize();
 	    Logger.getLogger("java.awt").setLevel(Level.OFF);
 	    Logger.getLogger("sun.awt").setLevel(Level.OFF);
@@ -125,13 +128,29 @@ public class FuzzySystem {
 		xlandingPlatform.addTerm(new Rectangle("close", -landingSpaceWidth/2, landingSpaceWidth/2));
 		this.engine.addInputVariable(xlandingPlatform);
 		
-		InputVariable ylandingPlatform1 = new InputVariable();
-		ylandingPlatform1.setName("ylandingPlatform");
-		ylandingPlatform1.setEnabled(true);
-		ylandingPlatform1.setRange(0, Conf.SCREEN_HEIGHT);
-		ylandingPlatform1.setLockValueInRange(false);
-		ylandingPlatform1.addTerm(new Trapezoid("far", h/2, 3*h/2, h, h));
-		this.engine.addInputVariable(ylandingPlatform1);
+		InputVariable ylandingPlatform = new InputVariable();
+		ylandingPlatform.setName("ylandingPlatform");
+		ylandingPlatform.setEnabled(true);
+		ylandingPlatform.setRange(0, Conf.SCREEN_HEIGHT);
+		ylandingPlatform.setLockValueInRange(false);
+		ylandingPlatform.addTerm(new Trapezoid("far", h/2, 3*h/2, h, h));
+		this.engine.addInputVariable(ylandingPlatform);
+		
+		InputVariable nearestObstacleX = new InputVariable();
+		nearestObstacleX.setName("nearestObstacleX");
+		nearestObstacleX.setEnabled(true);
+		nearestObstacleX.setRange(0, w);
+		nearestObstacleX.setLockValueInRange(false);
+		nearestObstacleX.addTerm(new Triangle("near", -60, 0, 60));
+		this.engine.addInputVariable(nearestObstacleX);
+		
+		InputVariable nearestObstacleY = new InputVariable();
+		nearestObstacleY.setName("nearestObstacleY");
+		nearestObstacleY.setEnabled(true);
+		nearestObstacleY.setRange(0, w);
+		nearestObstacleY.setLockValueInRange(false);
+		nearestObstacleY.addTerm(new Triangle("near", -400, 0, 400));
+		this.engine.addInputVariable(nearestObstacleY);
 		
 		InputVariable landingMode = new InputVariable();
 		landingMode.setName("landingMode");
@@ -194,6 +213,7 @@ public class FuzzySystem {
 		ruleBlock.setDisjunction(new Maximum());
 		ruleBlock.setImplication(null);
 		ruleBlock.setActivation(new General());
+		
 		ruleBlock.addRule(Rule.parse("if rightWall is near then xOutputMove is left", this.engine));
 		ruleBlock.addRule(Rule.parse("if leftWall is near then xOutputMove is right", this.engine));
 		ruleBlock.addRule(Rule.parse("if upperWall is near then yOutputMove is down", this.engine));
@@ -205,10 +225,6 @@ public class FuzzySystem {
 		ruleBlock.addRule(Rule.parse("if xspeed is postiveLarge then xOutputMove is left", this.engine));
 		ruleBlock.addRule(Rule.parse("if xspeed is negativeLarge then xOutputMove is right", this.engine));
 		
-//		ruleBlock.addRule(Rule.parse("if xlandingPlatform is negativeNear then "
-//				+ "xOutputMove is left and yOutputMove is down", this.engine));
-//		ruleBlock.addRule(Rule.parse("if xlandingPlatform is positiveNear then "
-//				+ "xOutputMove is right and yOutputMove is down", this.engine));
 		ruleBlock.addRule(Rule.parse("if xlandingPlatform is negativeNear then "
 				+ "xOutputMove is left", this.engine));
 		ruleBlock.addRule(Rule.parse("if xlandingPlatform is positiveNear then "
@@ -217,14 +233,20 @@ public class FuzzySystem {
 		
 		ruleBlock.addRule(Rule.parse("if xlandingPlatform is close and xspeed is small then landingModeStatus is on", this.engine));
 		
-//		ruleBlock.addRule(Rule.parse("if landingMode is on and ylandingPlatform is far then yOutputMove is down", this.engine));
-		
 		ruleBlock.addRule(Rule.parse("if landingMode is on and yspeed is positive then yOutputMove is up", this.engine));
 		ruleBlock.addRule(Rule.parse("if landingMode is on and yspeed is negative then yOutputMove is down", this.engine));
 		ruleBlock.addRule(Rule.parse("if landingMode is on and yspeed is zero then yOutputMove is down", this.engine));
 		
 		ruleBlock.addRule(Rule.parse("if landingMode is on and xspeed is positive then xOutputMove is left", this.engine));
 		ruleBlock.addRule(Rule.parse("if landingMode is on and xspeed is negative then xOutputMove is right", this.engine));
+		
+//		ruleBlock.addRule(Rule.parse("if nearestObstacleX is near and nearestObstacleY is near and xspeed is positive then xOutputMove is left", this.engine));
+		ruleBlock.addRule(Rule.parse("if nearestObstacleX is near and nearestObstacleY is near then xOutputMove is right", this.engine));
+		ruleBlock.addRule(Rule.parse("if nearestObstacleX is near and nearestObstacleY is near then yOutputMove is up", this.engine));
+//		ruleBlock.addRule(Rule.parse("if nearestObstacleX is near and nearestObstacleY is near and yspeed is negative then yOutputMove is down", this.engine));
+		
+//		ruleBlock.addRule(Rule.parse("if landingMode is on and xlandingPlatform is farpos then landingModeStatus is off", this.engine));
+//		ruleBlock.addRule(Rule.parse("if landingMode is on and xlandingPlatform is farneg then landingModeStatus is off", this.engine));
 		
 		getEngine().addRuleBlock(ruleBlock);
 

@@ -1,5 +1,7 @@
 package lunarlander.players;
 
+import java.awt.Point;
+
 import com.fuzzylite.Engine;
 
 import lunarlander.fuzzy.FuzzySystem;
@@ -15,12 +17,16 @@ public class FuzzyPlayer implements Player {
 	private FuzzySystem fs;
 	private int[] currentMove;
 	private double landingPlatformMid; 
+	private Obstacles obstacles;
 	
 	private boolean landingMode = false;
 	
-	public FuzzyPlayer(Rocket rocket, Obstacles obstacles) {
+	public FuzzyPlayer(Rocket rocket) {
+
 		this.rocket = rocket;
 		this.landingSpace = rocket.getLandingSpace();
+		this.obstacles = rocket.getObstacles();
+
 		this.landingPlatformMid = landingSpace.x + 0.5*landingSpace.landingSpaceWidth;
 		fs = new FuzzySystem(rocket.landerRocketWidth, rocket.landerRocketHeight, landingPlatformMid, 
 				this.landingSpace.landingSpaceWidth);
@@ -43,6 +49,20 @@ public class FuzzyPlayer implements Player {
 		engine.setInputValue("xlandingPlatform", landingPlatformMid - rocketMid);
 		engine.setInputValue("ylandingPlatform", y + rocket.landerRocketHeight);
 		engine.setInputValue("landingMode", landingMode ? 1 : 0);
+		
+		if(obstacles != null) {
+			Point nearestObstacle = obstacles.nearestObstacle(x + 0.5*rocket.landerRocketWidth, 
+					y + 0.5*rocket.landerRocketHeight);
+			double obstacleX = Double.POSITIVE_INFINITY;
+			double obstacleY = Double.POSITIVE_INFINITY;
+			if (nearestObstacle != null) {
+				obstacleX = nearestObstacle.x - x + 0.5*rocket.landerRocketWidth;
+				obstacleY = nearestObstacle.y - y + 0.5*rocket.landerRocketHeight;
+				System.out.println(obstacleX + " " + obstacleY + " ,actual: " + nearestObstacle.x + " " + nearestObstacle.y);
+			}
+			engine.setInputValue("nearestObstacleX", obstacleX);
+			engine.setInputValue("nearestObstacleY", obstacleY);
+		}
 		
 		engine.process();
 

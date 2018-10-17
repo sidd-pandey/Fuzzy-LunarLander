@@ -30,4 +30,10 @@ ruleBlock.addRule(Rule.parse("if lowerWall is near then yOutputMove is up", this
 ruleBlock.addRule(Rule.parse("if lowerWall is middle then yOutputMove is nothing", this.engine));
 ruleBlock.addRule(Rule.parse("if upperWall is middle then yOutputMove is nothing", this.engine));
 
+ruleBlock.addRule(Rule.parse("if xlandingPlatform is negativeNear then "
+		+ "xOutputMove is left and yOutputMove is down", this.engine));
+ruleBlock.addRule(Rule.parse("if xlandingPlatform is positiveNear then "
+		+ "xOutputMove is right and yOutputMove is down", this.engine));
+
+ruleBlock.addRule(Rule.parse("if landingMode is on and ylandingPlatform is far then yOutputMove is down", this.engine));
 

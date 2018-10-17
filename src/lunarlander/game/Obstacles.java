@@ -49,6 +49,7 @@ public class Obstacles {
 		List<Point> centerPoints = new ArrayList<>();
 		centerPoints.add(new Point(Conf.SCREEN_WIDTH/2, Conf.SCREEN_HEIGHT/2));
 		centerPoints.add(new Point(Conf.SCREEN_WIDTH/3, Conf.SCREEN_HEIGHT/3));
+		centerPoints.add(new Point(Conf.SCREEN_WIDTH - 600, Conf.SCREEN_HEIGHT/2));
 		return centerPoints;
 	}
 	
@@ -64,11 +65,11 @@ public class Obstacles {
 		return collided;
 	}
 	
-	public Point nearestObstacle(int x, int y) {
+	public Point nearestObstacle(double e, double f) {
 		Point nearest = null;
 		double smallestDistance = Integer.MAX_VALUE;
 		for (Point box : coordinates) {
-			double d = box.distanceSq(x, y);
+			double d = box.distanceSq(e, f);
 			if ( d < smallestDistance) {
 				nearest = box;
 				smallestDistance = d;
