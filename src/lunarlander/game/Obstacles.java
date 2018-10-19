@@ -48,8 +48,10 @@ public class Obstacles {
 		
 		List<Point> centerPoints = new ArrayList<>();
 		centerPoints.add(new Point(Conf.SCREEN_WIDTH/2, Conf.SCREEN_HEIGHT/2));
-		centerPoints.add(new Point(Conf.SCREEN_WIDTH/3, Conf.SCREEN_HEIGHT/3));
-		centerPoints.add(new Point(Conf.SCREEN_WIDTH - 600, Conf.SCREEN_HEIGHT/2));
+		centerPoints.add(new Point(Conf.SCREEN_WIDTH/4, Conf.SCREEN_HEIGHT/2));
+		centerPoints.add(new Point(Conf.SCREEN_WIDTH - 200, Conf.SCREEN_HEIGHT - 100));
+		centerPoints.add(new Point(400, 200));
+//		centerPoints.add(new Point(Conf.SCREEN_WIDTH - 600, Conf.SCREEN_HEIGHT - 200));
 		return centerPoints;
 	}
 	

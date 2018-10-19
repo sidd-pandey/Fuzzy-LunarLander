@@ -75,10 +75,10 @@ public class Rocket {
 
 //		this.pilot = new RandomPlayer();
 		x = random.nextInt(Framework.frameWidth - landerRocketWidth); // X random start
-		x = Framework.frameWidth / 2;
-//		x = Framework.frameWidth - landerRocketWidth; // X start from leftmost position
-//		x = landerRocketWidth;
-//		y = Framework.frameHeight/2 - 64;
+//		x = Framework.frameWidth / 2;
+//		x = (Framework.frameWidth - landerRocketWidth)/2; // X start from leftmost position
+//		x = Framework.frameWidth - landerRocketWidth;
+//		y = 0;
 	}
 
 	private void initialize() {

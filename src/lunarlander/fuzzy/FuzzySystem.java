@@ -1,6 +1,7 @@
 package lunarlander.fuzzy;
 
 import java.awt.event.KeyEvent;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,63 +48,51 @@ public class FuzzySystem {
 		this.engine.setName("Fuzzy Pilot Engine");
 		
 		int w = Conf.SCREEN_WIDTH - landerRocketWidth, h = Conf.SCREEN_HEIGHT - landerRocketHeight; 
-		
-		InputVariable rightWall = new InputVariable();
-		rightWall.setName("rightWall");
-		rightWall.setEnabled(true);
-		rightWall.setRange(0, Conf.SCREEN_WIDTH);
-		rightWall.setLockValueInRange(false);
-		rightWall.addTerm(new Trapezoid("near", 0, 0, w/8 < w-landingPlatformMid ? w/8 : (w-landingPlatformMid)/3
-				, w/8 < w-landingPlatformMid ? w/6 : w - landingPlatformMid));
-		rightWall.addTerm(new Trapezoid("far", w/3, 2*w/3, w, w));
-//		rightWall.addTerm(new Trapezoid("near", 0, 0, w/3, 2*w/3));
-//		rightWall.addTerm(new Trapezoid("far", w/3, 2*w/3, w, w));
-		this.engine.addInputVariable(rightWall);
-		
-		InputVariable leftWall = new InputVariable();
-		leftWall.setName("leftWall");
-		leftWall.setEnabled(true);
-		leftWall.setRange(0, Conf.SCREEN_WIDTH);
-		leftWall.setLockValueInRange(false);
-		leftWall.addTerm(new Trapezoid("near", 0, 0, w/8 < landingPlatformMid ? w/8 : landingPlatformMid/3
-				, w/8 < landingPlatformMid ? w/6 : landingPlatformMid/2));
-		leftWall.addTerm(new Trapezoid("far", w/3, 2*w/3, w, w));
-//		leftWall.addTerm(new Trapezoid("near", 0, 0, w/3, 2*w/3));
-//		leftWall.addTerm(new Trapezoid("far", w/3, 2*w/3, w, w));
-		this.engine.addInputVariable(leftWall);
-		
-		InputVariable upperWall = new InputVariable();
-		upperWall.setName("upperWall");
-		upperWall.setEnabled(true);
-		upperWall.setRange(0, Conf.SCREEN_HEIGHT);
-		upperWall.setLockValueInRange(false);
-		upperWall.addTerm(new Trapezoid("near", 0, 0, h/4, h/3));
-		upperWall.addTerm(new Trapezoid("far", h/6, 2*h/3, h, h));
-//		upperWall.addTerm(new Trapezoid("near", 0, 0, h/3, 2*h/3));
-//		upperWall.addTerm(new Trapezoid("far", h/3, 2*h/3, h, h));
-		this.engine.addInputVariable(upperWall);
+		double wLandingPlatform = Conf.SCREEN_WIDTH - (landerRocketWidth + landingSpaceWidth)/2;
 		
 		InputVariable lowerWall = new InputVariable();
 		lowerWall.setName("lowerWall");
 		lowerWall.setEnabled(true);
-		lowerWall.setRange(0, Conf.SCREEN_HEIGHT);
+		lowerWall.setRange(0, h);
 		lowerWall.setLockValueInRange(false);
-		lowerWall.addTerm(new Trapezoid("near", 0, 0, h/4, h/3));
-		lowerWall.addTerm(new Trapezoid("far", h/6, 2*h/3, h, h));
-//		lowerWall.addTerm(new Trapezoid("near", 0, 0, h/3, 2*h/3));
-//		lowerWall.addTerm(new Trapezoid("far", h/3, 2*h/3, h, h));
+		lowerWall.addTerm(new Trapezoid("near", 0, 0, h/10, h/8));
+		lowerWall.addTerm(new Trapezoid("far", h/10, h/8, h, h));
 		this.engine.addInputVariable(lowerWall);
+
+		InputVariable upperWall = new InputVariable();
+		upperWall.setName("upperWall");
+		upperWall.setEnabled(true);
+		upperWall.setRange(0, h);
+		upperWall.setLockValueInRange(false);
+		upperWall.addTerm(new Trapezoid("near", 0, 0, h/10, h/8));
+		upperWall.addTerm(new Trapezoid("far", h/10, h/8, h, h));
+		this.engine.addInputVariable(upperWall);
+		
+		InputVariable leftWall = new InputVariable();
+		leftWall.setName("leftWall");
+		leftWall.setEnabled(true);
+		leftWall.setRange(0, w);
+		leftWall.setLockValueInRange(false);
+		leftWall.addTerm(new Trapezoid("near", 0, 0, w/25, w/20));
+		leftWall.addTerm(new Trapezoid("far", w/25, w/20, w, w));
+		this.engine.addInputVariable(leftWall);
+		
+		InputVariable rightWall = new InputVariable();
+		rightWall.setName("rightWall");
+		rightWall.setEnabled(true);
+		rightWall.setRange(0, w);
+		rightWall.setLockValueInRange(false);
+		rightWall.addTerm(new Trapezoid("near", 0, 0, w/25, w/20));
+		rightWall.addTerm(new Trapezoid("far", w/25, w/20, w, w));
+		this.engine.addInputVariable(rightWall);
 		
 		InputVariable yspeed = new InputVariable();
 		yspeed.setName("yspeed");
 		yspeed.setEnabled(true);
 		yspeed.setRange(-40, 40);
 		yspeed.setLockValueInRange(false);
-		yspeed.addTerm(new Trapezoid("postiveLarge", 10, 15, 40, 40));
-		yspeed.addTerm(new Trapezoid("negativeLarge", -40, -40, -15, -10));
-		yspeed.addTerm(new Triangle("positive", 0, 40, 40));
-		yspeed.addTerm(new Triangle("negative", -40, -40, 0));
-		yspeed.addTerm(new Triangle("zero", -4, 0, 4));
+		yspeed.addTerm(new Rectangle("positiveLarge", 5, 40));
+		yspeed.addTerm(new Rectangle("negativeLarge", -40, -5));
 		this.engine.addInputVariable(yspeed);
 		
 		InputVariable xspeed = new InputVariable();
@@ -111,61 +100,88 @@ public class FuzzySystem {
 		xspeed.setEnabled(true);
 		xspeed.setRange(-60, 60);
 		xspeed.setLockValueInRange(false);
-		xspeed.addTerm(new Trapezoid("postiveLarge", 5, 15, 40, 40));
-		xspeed.addTerm(new Trapezoid("negativeLarge", -40, -40, -15, -5));
-		xspeed.addTerm(new Triangle("positive", 0, 40, 40));
-		xspeed.addTerm(new Triangle("negative", -40, -40, 0));
-		xspeed.addTerm(new Rectangle("small", -5, 5));
+		xspeed.addTerm(new Rectangle("positiveLarge", 5, 60));
+		xspeed.addTerm(new Rectangle("negativeLarge", -60, -5));
 		this.engine.addInputVariable(xspeed);
+		
+		InputVariable landingAllowed = new InputVariable();
+		landingAllowed.setName("landingAllowed");
+		landingAllowed.setEnabled(true);
+		landingAllowed.setRange(-1, 1);
+		landingAllowed.setLockValueInRange(false);
+		landingAllowed.addTerm(new Rectangle("true", 0, 1));
+		landingAllowed.addTerm(new Rectangle("false", -1, 0));
+		this.engine.addInputVariable(landingAllowed);
 		
 		InputVariable xlandingPlatform = new InputVariable();
 		xlandingPlatform.setName("xlandingPlatform");
 		xlandingPlatform.setEnabled(true);
-		xlandingPlatform.setRange(-Conf.SCREEN_WIDTH, Conf.SCREEN_WIDTH);
+		xlandingPlatform.setRange(-wLandingPlatform, wLandingPlatform);
 		xlandingPlatform.setLockValueInRange(false);
-		xlandingPlatform.addTerm(new Triangle("negativeNear", -w, -landingPlatformMid, 0));
-		xlandingPlatform.addTerm(new Triangle("positiveNear", 0, landingPlatformMid, w));
-		xlandingPlatform.addTerm(new Rectangle("close", -landingSpaceWidth/2, landingSpaceWidth/2));
+//		xlandingPlatform.addTerm(new Trapezoid("negativeFar", -wLandingPlatform, -wLandingPlatform, -landingPlatformMid, 0));
+//		xlandingPlatform.addTerm(new Trapezoid("positiveFar", 0, landingPlatformMid, wLandingPlatform, wLandingPlatform));
+		xlandingPlatform.addTerm(new Triangle("negativeFar", -wLandingPlatform, -landingPlatformMid, 0));
+		xlandingPlatform.addTerm(new Triangle("positiveFar", 0, landingPlatformMid, wLandingPlatform));
 		this.engine.addInputVariable(xlandingPlatform);
+
+		InputVariable obstacleX = new InputVariable();
+		obstacleX.setName("obstacleX");
+		obstacleX.setEnabled(true);
+		obstacleX.setRange(0, w);
+		obstacleX.setLockValueInRange(false);
+		obstacleX.addTerm(new Trapezoid("near", 48, 48, 75, 90));
+//		obstacleX.addTerm(new Trapezoid("nearRight", 48, 60, w, w));
+		this.engine.addInputVariable(obstacleX);
+	
+		InputVariable obstacleY = new InputVariable();
+		obstacleY.setName("obstacleY");
+		obstacleY.setEnabled(true);
+		obstacleY.setRange(0, h);
+		obstacleY.setLockValueInRange(false);
+		obstacleY.addTerm(new Trapezoid("near", 48, 48, 150, 150));
+//		obstacleY.addTerm(new Trapezoid("nearBottom", -60, -48, 0, 0));
+		this.engine.addInputVariable(obstacleY);
 		
-		InputVariable ylandingPlatform = new InputVariable();
-		ylandingPlatform.setName("ylandingPlatform");
-		ylandingPlatform.setEnabled(true);
-		ylandingPlatform.setRange(0, Conf.SCREEN_HEIGHT);
-		ylandingPlatform.setLockValueInRange(false);
-		ylandingPlatform.addTerm(new Trapezoid("far", h/2, 3*h/2, h, h));
-		this.engine.addInputVariable(ylandingPlatform);
+		InputVariable isTop = new InputVariable();
+		isTop.setName("isTop");
+		isTop.setEnabled(true);
+		isTop.setRange(-1, 1);
+		isTop.setLockValueInRange(false);
+		isTop.addTerm(new Rectangle("true", 0, 1));
+		isTop.addTerm(new Rectangle("false", -1, 0));
+		this.engine.addInputVariable(isTop);
 		
-		InputVariable nearestObstacleX = new InputVariable();
-		nearestObstacleX.setName("nearestObstacleX");
-		nearestObstacleX.setEnabled(true);
-		nearestObstacleX.setRange(0, w);
-		nearestObstacleX.setLockValueInRange(false);
-		nearestObstacleX.addTerm(new Triangle("near", -60, 0, 60));
-		this.engine.addInputVariable(nearestObstacleX);
+		InputVariable isBottom = new InputVariable();
+		isBottom.setName("isBottom");
+		isBottom.setEnabled(true);
+		isBottom.setRange(-1, 1);
+		isBottom.setLockValueInRange(false);
+		isBottom.addTerm(new Rectangle("true", 0, 1));
+		isBottom.addTerm(new Rectangle("false", -1, 0));
+		this.engine.addInputVariable(isBottom);
 		
-		InputVariable nearestObstacleY = new InputVariable();
-		nearestObstacleY.setName("nearestObstacleY");
-		nearestObstacleY.setEnabled(true);
-		nearestObstacleY.setRange(0, w);
-		nearestObstacleY.setLockValueInRange(false);
-		nearestObstacleY.addTerm(new Triangle("near", -400, 0, 400));
-		this.engine.addInputVariable(nearestObstacleY);
+		InputVariable isLeft = new InputVariable();
+		isLeft.setName("isLeft");
+		isLeft.setEnabled(true);
+		isLeft.setRange(-1, 1);
+		isLeft.setLockValueInRange(false);
+		isLeft.addTerm(new Rectangle("true", 0, 1));
+		isLeft.addTerm(new Rectangle("false", -1, 0));
+		this.engine.addInputVariable(isLeft);
 		
-		InputVariable landingMode = new InputVariable();
-		landingMode.setName("landingMode");
-		landingMode.setEnabled(true);
-		landingMode.setRange(0, 1);
-		landingMode.setLockValueInRange(false);
-		landingMode.addTerm(new Rectangle("on", 1, 1));
-		landingMode.addTerm(new Rectangle("off",0, 0));
-		this.engine.addInputVariable(landingMode);
+		InputVariable isRight = new InputVariable();
+		isRight.setName("isRight");
+		isRight.setEnabled(true);
+		isRight.setRange(-1, 1);
+		isRight.setLockValueInRange(false);
+		isRight.addTerm(new Rectangle("true", 0, 1));
+		isRight.addTerm(new Rectangle("false", -1, 0));
+		this.engine.addInputVariable(isRight);
 		
 		OutputVariable yOutputMove = new OutputVariable();
 		yOutputMove.setName("yOutputMove");
-		yOutputMove.setDescription("");
 		yOutputMove.setEnabled(true);
-		yOutputMove.setRange(0, 525);
+		yOutputMove.setRange(-1, 525);
 		yOutputMove.setLockValueInRange(false);
 		yOutputMove.setAggregation(null);
 		yOutputMove.setDefuzzifier(new LargestWeightedValue());
@@ -173,11 +189,11 @@ public class FuzzySystem {
 		yOutputMove.setLockPreviousValue(true);
 		yOutputMove.addTerm(new Constant("up", KeyEvent.VK_UP));
 		yOutputMove.addTerm(new Constant("down", KeyEvent.VK_DOWN));
+		yOutputMove.addTerm(new Constant("nothing", -1));
 		getEngine().addOutputVariable(yOutputMove);
 		
 		OutputVariable xOutputMove = new OutputVariable();
 		xOutputMove.setName("xOutputMove");
-		xOutputMove.setDescription("");
 		xOutputMove.setEnabled(true);
 		xOutputMove.setRange(-1, 525);
 		xOutputMove.setLockValueInRange(false);
@@ -189,22 +205,7 @@ public class FuzzySystem {
 		xOutputMove.addTerm(new Constant("right", KeyEvent.VK_RIGHT));
 		xOutputMove.addTerm(new Constant("nothing", -1));
 		getEngine().addOutputVariable(xOutputMove);
-		
-		OutputVariable landingModeStatus = new OutputVariable();
-		landingModeStatus.setName("landingModeStatus");
-		landingModeStatus.setDescription("");
-		landingModeStatus.setEnabled(true);
-		landingModeStatus.setRange(0, 1);
-		landingModeStatus.setLockValueInRange(false);
-		landingModeStatus.setAggregation(null);
-		landingModeStatus.setDefuzzifier(new LargestWeightedValue());
-		landingModeStatus.setDefaultValue(-1);
-		landingModeStatus.setLockPreviousValue(true);
-		landingModeStatus.addTerm(new Constant("on", 1));
-		landingModeStatus.addTerm(new Constant("off", 0));
-		getEngine().addOutputVariable(landingModeStatus);
-
-		
+				
 		RuleBlock ruleBlock = new RuleBlock();
 		ruleBlock.setName("rule block");
 		ruleBlock.setDescription("");
@@ -214,40 +215,35 @@ public class FuzzySystem {
 		ruleBlock.setImplication(null);
 		ruleBlock.setActivation(new General());
 		
-		ruleBlock.addRule(Rule.parse("if rightWall is near then xOutputMove is left", this.engine));
-		ruleBlock.addRule(Rule.parse("if leftWall is near then xOutputMove is right", this.engine));
+		ruleBlock.addRule(Rule.parse("if lowerWall is near and landingAllowed is false then yOutputMove is up", this.engine));
 		ruleBlock.addRule(Rule.parse("if upperWall is near then yOutputMove is down", this.engine));
-		ruleBlock.addRule(Rule.parse("if lowerWall is near and landingMode is off then yOutputMove is up", this.engine));
+		ruleBlock.addRule(Rule.parse("if leftWall is near then xOutputMove is right", this.engine));
+		ruleBlock.addRule(Rule.parse("if rightWall is near then xOutputMove is left", this.engine));
 		
-		ruleBlock.addRule(Rule.parse("if yspeed is postiveLarge then yOutputMove is up", this.engine));
+		ruleBlock.addRule(Rule.parse("if yspeed is positiveLarge then yOutputMove is up", this.engine));
 		ruleBlock.addRule(Rule.parse("if yspeed is negativeLarge then yOutputMove is down", this.engine));
+		ruleBlock.addRule(Rule.parse("if xspeed is positiveLarge and isTop is false then xOutputMove is left", this.engine));
+		ruleBlock.addRule(Rule.parse("if xspeed is negativeLarge and isTop is false then xOutputMove is right", this.engine));
 		
-		ruleBlock.addRule(Rule.parse("if xspeed is postiveLarge then xOutputMove is left", this.engine));
-		ruleBlock.addRule(Rule.parse("if xspeed is negativeLarge then xOutputMove is right", this.engine));
+		ruleBlock.addRule(Rule.parse("if xlandingPlatform is negativeFar then xOutputMove is left", this.engine));
+		ruleBlock.addRule(Rule.parse("if xlandingPlatform is positiveFar then xOutputMove is right", this.engine));
+			
+		ruleBlock.addRule(Rule.parse("if isTop is true and obstacleY is near then yOutputMove is up", this.engine));
+		ruleBlock.addRule(Rule.parse("if isBottom is true and obstacleY is near then yOutputMove is down", this.engine));
+		ruleBlock.addRule(Rule.parse("if isLeft is true and obstacleX is near then xOutputMove is left", this.engine));
+		ruleBlock.addRule(Rule.parse("if isRight is true and obstacleX is near then xOutputMove is right", this.engine));
 		
-		ruleBlock.addRule(Rule.parse("if xlandingPlatform is negativeNear then "
-				+ "xOutputMove is left", this.engine));
-		ruleBlock.addRule(Rule.parse("if xlandingPlatform is positiveNear then "
-				+ "xOutputMove is right", this.engine));
-				
-		
-		ruleBlock.addRule(Rule.parse("if xlandingPlatform is close and xspeed is small then landingModeStatus is on", this.engine));
-		
-		ruleBlock.addRule(Rule.parse("if landingMode is on and yspeed is positive then yOutputMove is up", this.engine));
-		ruleBlock.addRule(Rule.parse("if landingMode is on and yspeed is negative then yOutputMove is down", this.engine));
-		ruleBlock.addRule(Rule.parse("if landingMode is on and yspeed is zero then yOutputMove is down", this.engine));
-		
-		ruleBlock.addRule(Rule.parse("if landingMode is on and xspeed is positive then xOutputMove is left", this.engine));
-		ruleBlock.addRule(Rule.parse("if landingMode is on and xspeed is negative then xOutputMove is right", this.engine));
-		
-//		ruleBlock.addRule(Rule.parse("if nearestObstacleX is near and nearestObstacleY is near and xspeed is positive then xOutputMove is left", this.engine));
-		ruleBlock.addRule(Rule.parse("if nearestObstacleX is near and nearestObstacleY is near then xOutputMove is right", this.engine));
-		ruleBlock.addRule(Rule.parse("if nearestObstacleX is near and nearestObstacleY is near then yOutputMove is up", this.engine));
-//		ruleBlock.addRule(Rule.parse("if nearestObstacleX is near and nearestObstacleY is near and yspeed is negative then yOutputMove is down", this.engine));
-		
-//		ruleBlock.addRule(Rule.parse("if landingMode is on and xlandingPlatform is farpos then landingModeStatus is off", this.engine));
-//		ruleBlock.addRule(Rule.parse("if landingMode is on and xlandingPlatform is farneg then landingModeStatus is off", this.engine));
-		
+//		Random random = new Random();
+//		int direction = 0;
+//		if (direction == 0) {
+//			ruleBlock.addRule(Rule.parse("if landingAllowed is true and isTop is true and obstacleY is near "
+//				+ "then xOutputMove is left and yOutputMove is up", this.engine));
+//			ruleBlock.addRule(Rule.parse("if landingAllowed is true and isTop is true and obstacleY is near "
+//				+ "then xOutputMove is right and yOutputMove is up", this.engine));
+//		}
+//		else
+//			ruleBlock.addRule(Rule.parse("if landingAllowed is true and isTop is true and obstacleY is near "
+//					+ "then xOutputMove is left and yOutputMove is up", this.engine));
 		getEngine().addRuleBlock(ruleBlock);
 
 	}

@@ -29,10 +29,10 @@ public class Landingspace {
 		initialize();
 		loadcontent();
 
-//		x = random.nextInt(Framework.frameWidth - landingSpaceWidth); // X random start
-//		x = (Framework.frameWidth - landingSpaceWidth);
-		x = Framework.frameWidth / 2;
-//		x = 5;
+		x = random.nextInt(Framework.frameWidth - landingSpaceWidth); // X random start
+//		x = (Framework.frameWidth - landingSpaceWidth)/2;
+//		x = Framework.frameWidth / 2;
+//		x = 0;
 	}
 
 	private void initialize() {
