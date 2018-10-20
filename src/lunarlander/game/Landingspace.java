@@ -31,7 +31,7 @@ public class Landingspace {
 
 		x = random.nextInt(Framework.frameWidth - landingSpaceWidth); // X random start
 //		x = (Framework.frameWidth - landingSpaceWidth)/2;
-//		x = Framework.frameWidth / 2;
+//		x = Conf.SCREEN_WIDTH/4 - 72;
 //		x = 0;
 	}
 

@@ -19,8 +19,6 @@ public class FuzzyPlayer implements Player {
 	private double landingPlatformMid; 
 	private Obstacles obstacles;
 	
-	private boolean landingMode = false;
-	
 	public FuzzyPlayer(Rocket rocket) {
 
 		this.rocket = rocket;
@@ -41,6 +39,7 @@ public class FuzzyPlayer implements Player {
 		double rocketMidY = y + 0.5*rocket.landerRocketHeight;
 		int landingAllowed = 0;
 		double obstacleWidth = 32, obstacleHeight = 32;
+		double thresholdX = 5, thresholdY = 10;
 		
 		Engine engine = fs.getEngine();
 		engine.setInputValue("rightWall", Conf.SCREEN_WIDTH - x - rocket.landerRocketWidth);
@@ -50,7 +49,6 @@ public class FuzzyPlayer implements Player {
 		engine.setInputValue("yspeed", rocket.speedY);
 		engine.setInputValue("xspeed", rocket.speedX);
 		engine.setInputValue("xlandingPlatform", landingPlatformMid - rocketMid);
-//		engine.setInputValue("ylandingPlatform", y + rocket.landerRocketHeight);
 		
 		if (rocketMid >= (landingSpace.x + 0.25*landingSpace.landingSpaceWidth) && 
 				(rocketMid <= landingSpace.x + 0.75*landingSpace.landingSpaceWidth)) 
@@ -67,33 +65,41 @@ public class FuzzyPlayer implements Player {
 					y + 0.5*rocket.landerRocketHeight);
 			double obstacleX = Double.POSITIVE_INFINITY;
 			double obstacleY = Double.POSITIVE_INFINITY;
-			int top = 0, bottom = 0, left = 0, right = 0;
+			int top = 0, bottom = 0, left = 0, right = 0, obstacleOnTop = 0;
 			
 			if (nearestObstacle != null) {
-				obstacleX = nearestObstacle.x - x + 0.5*rocket.landerRocketWidth;
-				obstacleY = nearestObstacle.y - y + 0.5*rocket.landerRocketHeight;
-//				System.out.println(obstacleX + " " + obstacleY + " ,actual: " + nearestObstacle.x + " " + nearestObstacle.y);
-				if ((y + rocket.landerRocketHeight < (nearestObstacle.y - obstacleHeight/2)) && (rocketMid > (nearestObstacle.x - (obstacleWidth/2 + rocket.landerRocketWidth/2)))
-						&& (rocketMid < (nearestObstacle.x + (obstacleWidth/2 + rocket.landerRocketWidth/2)))) 
+				obstacleX = nearestObstacle.x + 0.5*obstacleWidth - x - 0.5*rocket.landerRocketWidth;
+				obstacleY = nearestObstacle.y + 0.5*obstacleWidth - y - 0.5*rocket.landerRocketHeight;
+//				System.out.println(obstacleX + " " + obstacleY + " ,actual: " + nearestObstacle.x + " " + nearestObstacle.y
+//						+ ", Position: " + x + " " + y);
+				if ((y + rocket.landerRocketHeight + thresholdY <= (nearestObstacle.y)) && (rocketMid + thresholdX >= (nearestObstacle.x - (rocket.landerRocketWidth/2)))
+						&& (rocketMid - thresholdX <= (nearestObstacle.x + (obstacleWidth + rocket.landerRocketWidth/2)))) 
 					top = 1;
 				else	
 					top = -1;
-				if ((y > nearestObstacle.y + obstacleHeight/2) && (rocketMid > (nearestObstacle.x - (obstacleWidth/2 + rocket.landerRocketWidth/2)))
-						&& (rocketMid < (nearestObstacle.x + (obstacleWidth/2 + rocket.landerRocketWidth/2)))) 
+				if ((y - thresholdY >= nearestObstacle.y + obstacleHeight) && (rocketMid + thresholdX >= (nearestObstacle.x - (rocket.landerRocketWidth/2)))
+						&& (rocketMid - thresholdX <= (nearestObstacle.x + (obstacleWidth + rocket.landerRocketWidth/2)))) 
 					bottom = 1;
 				else	
 					bottom = -1;
-				if ((x + 0.5*rocket.landerRocketWidth < (nearestObstacle.x - obstacleWidth/2)) && (rocketMidY > (nearestObstacle.y - (obstacleHeight/2 + rocket.landerRocketHeight/2)))
-						&& (rocketMidY < (nearestObstacle.y + (obstacleHeight/2 + rocket.landerRocketHeight/2)))) 
+				if ((x + rocket.landerRocketWidth + thresholdX <= (nearestObstacle.x)) && (rocketMidY + thresholdY >= (nearestObstacle.y - (rocket.landerRocketHeight/2)))
+						&& (rocketMidY - thresholdY <= (nearestObstacle.y + (obstacleHeight + rocket.landerRocketHeight/2)))) 
 					left = 1;
 				else	
 					left = -1;
-				if ((x + 0.5*rocket.landerRocketWidth > nearestObstacle.x + obstacleWidth/2) && (rocketMidY > (nearestObstacle.y - (obstacleHeight/2 + rocket.landerRocketHeight/2)))
-						&& (rocketMidY < (nearestObstacle.y + (obstacleHeight/2 + rocket.landerRocketHeight/2)))) 
+				if ((x - thresholdX >= nearestObstacle.x + obstacleWidth) && (rocketMidY + thresholdY >= (nearestObstacle.y - (rocket.landerRocketHeight/2)))
+						&& (rocketMidY - thresholdY <= (nearestObstacle.y + (obstacleHeight + rocket.landerRocketHeight/2)))) 
 					right = 1;
 				else	
 					right = -1;
+				
+				if (rocketMid >= nearestObstacle.x + obstacleWidth/2 ) 
+					obstacleOnTop = 1;
+				else if (rocketMid <= nearestObstacle.x + obstacleWidth/2 )	
+					obstacleOnTop = -1;
 			}
+			
+			engine.setInputValue("obstacleOnTop", obstacleOnTop);
 			
 			engine.setInputValue("obstacleX", Math.abs(obstacleX));
 			engine.setInputValue("obstacleY", Math.abs(obstacleY));
@@ -108,11 +114,6 @@ public class FuzzyPlayer implements Player {
 
 		Double yOutputValue = engine.getOutputValue("yOutputMove");
 		Double xOutputValue = engine.getOutputValue("xOutputMove");
-		
-//		Double allowSpeeding = engine.getOutputValue("allowSpeeding");
-		
-//		if (landinModeStatus == 0) this.landingMode = false;
-//		else if (landinModeStatus == 1) this.landingMode = true;
 		
 		this.currentMove = new int[] {yOutputValue.intValue(), xOutputValue.intValue()};
 

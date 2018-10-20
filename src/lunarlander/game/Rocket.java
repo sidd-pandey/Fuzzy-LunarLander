@@ -77,7 +77,7 @@ public class Rocket {
 		x = random.nextInt(Framework.frameWidth - landerRocketWidth); // X random start
 //		x = Framework.frameWidth / 2;
 //		x = (Framework.frameWidth - landerRocketWidth)/2; // X start from leftmost position
-//		x = Framework.frameWidth - landerRocketWidth;
+//		x = Conf.SCREEN_WIDTH/4;
 //		y = 0;
 	}
 
