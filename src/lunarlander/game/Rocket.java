@@ -8,7 +8,6 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,8 +17,6 @@ import lunarlander.players.FuzzyPlayer;
 import lunarlander.players.Player;
 
 public class Rocket {
-
-	private Random random; // Random X start position
 
 	public int x; // X coordinate (2D)
 
@@ -72,18 +69,13 @@ public class Rocket {
 		this.obstacles = obstacles;
 		
 		this.pilot = new FuzzyPlayer(this);
+		this.x = Conf.get().getRocketX();
+		this.y = Conf.get().getRocketY();
 
 //		this.pilot = new RandomPlayer();
-		x = random.nextInt(Framework.frameWidth - landerRocketWidth); // X random start
-//		x = Framework.frameWidth / 2;
-//		x = (Framework.frameWidth - landerRocketWidth)/2; // X start from leftmost position
-//		x = Conf.SCREEN_WIDTH/4;
-//		y = 0;
 	}
 
 	private void initialize() {
-	random = new Random(); // Initialize random start
-
 		speedAccelerating = 1;
 		speedY = 1;
 		speedGrav = -0.16;

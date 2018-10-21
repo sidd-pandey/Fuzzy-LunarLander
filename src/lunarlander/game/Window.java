@@ -7,6 +7,9 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
@@ -24,7 +27,9 @@ public class Window extends JFrame {
 		this.setResizable(false); // Not resizable
 
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); // Stop thread when user exists frame
-
+		
+		this.createMenu();
+		
 		this.setContentPane(new Framework());
 
 		this.setVisible(true);
@@ -38,5 +43,19 @@ public class Window extends JFrame {
 				new Window();
 			}
 		});
+	}
+	
+	private void createMenu() {
+		JMenuBar menubar = new JMenuBar();
+		JMenu gameMenu = new JMenu("Game");
+		JMenuItem configItem = new JMenuItem("Configurations");
+		
+		configItem.addActionListener(new ConfigMenu(this));
+		
+		gameMenu.add(configItem);
+		menubar.add(gameMenu);
+		
+		this.setJMenuBar(menubar);
+		
 	}
 }

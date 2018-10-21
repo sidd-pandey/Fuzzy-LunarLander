@@ -6,7 +6,6 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -45,20 +44,7 @@ public class Obstacles {
 	}
 
 	private List<Point> loadObstacles() {
-		
-		List<Point> centerPoints = new ArrayList<>();
-//		centerPoints.add(new Point(Conf.SCREEN_WIDTH/2, Conf.SCREEN_HEIGHT/2));
-//		centerPoints.add(new Point(Conf.SCREEN_WIDTH/4, Conf.SCREEN_HEIGHT/2));
-//		centerPoints.add(new Point(Conf.SCREEN_WIDTH - 200, Conf.SCREEN_HEIGHT - 300));
-//		centerPoints.add(new Point(400, 200));
-//		centerPoints.add(new Point(Conf.SCREEN_WIDTH - 600, Conf.SCREEN_HEIGHT - 200));
-//		
-		centerPoints.add(new Point(Conf.SCREEN_WIDTH/4, 250));
-		centerPoints.add(new Point(3 * Conf.SCREEN_WIDTH/4, 250));
-		centerPoints.add(new Point(Conf.SCREEN_WIDTH/4, Conf.SCREEN_HEIGHT - 250));
-		centerPoints.add(new Point(3 * Conf.SCREEN_WIDTH/4, Conf.SCREEN_HEIGHT - 250));
-		centerPoints.add(new Point(Conf.SCREEN_WIDTH/2, Conf.SCREEN_HEIGHT/2));
-//		
+		List<Point> centerPoints = Conf.get().getObstalceCenters();
 		return centerPoints;
 	}
 	

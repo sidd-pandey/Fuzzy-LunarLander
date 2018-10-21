@@ -1,11 +1,13 @@
 package lunarlander.fuzzy;
 
 import java.awt.event.KeyEvent;
-import java.util.Random;
+import java.util.logging.Filter;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import com.fuzzylite.Engine;
+import com.fuzzylite.FuzzyLite;
 import com.fuzzylite.activation.General;
 import com.fuzzylite.norm.s.Maximum;
 import com.fuzzylite.norm.t.Minimum;
@@ -41,6 +43,13 @@ public class FuzzySystem {
 	    Logger.getLogger("java.awt").setLevel(Level.OFF);
 	    Logger.getLogger("sun.awt").setLevel(Level.OFF);
 	    Logger.getLogger("javax.swing").setLevel(Level.OFF);
+	    
+	    FuzzyLite.logger().setFilter(new Filter() {
+			@Override
+			public boolean isLoggable(LogRecord record) {
+				return record.getSourceClassName().equals("com.fuzzylite.rule.Rule");
+			}
+		});
 	}
 
 	private void initialize() {

@@ -7,14 +7,12 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.imageio.ImageIO;
 
 public class Landingspace {
-
-	private Random random; // Random start position on X coordinate
 
 	public int x; // X coordinate
 
@@ -28,16 +26,11 @@ public class Landingspace {
 	public Landingspace() {
 		initialize();
 		loadcontent();
-
-		x = random.nextInt(Framework.frameWidth - landingSpaceWidth); // X random start
-//		x = (Framework.frameWidth - landingSpaceWidth)/2;
-//		x = Conf.SCREEN_WIDTH/4 - 72;
-//		x = 0;
+		this.x = Conf.get().getPltX();
 	}
 
 	private void initialize() {
-		random = new Random();
-		y = (int) (Framework.frameHeight * 0.95); // 95% of frame height
+		this.y = (int) (Framework.frameHeight * 0.95); // 95% of frame height
 	}
 
 	private void loadcontent() {
