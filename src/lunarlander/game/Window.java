@@ -3,12 +3,14 @@
  */
 package lunarlander.game;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -19,7 +21,7 @@ import javax.swing.WindowConstants;
 public class Window extends JFrame {
 
 	private Window() {
-
+		
 		URL iconURL = getClass().getResource("resources/img/icon.png");
 		ImageIcon icon = new ImageIcon(iconURL);
 		this.setIconImage(icon.getImage());
@@ -35,6 +37,7 @@ public class Window extends JFrame {
 		this.setContentPane(new Framework(this));
 
 		this.setVisible(true);
+		
 
 	}
 
@@ -65,6 +68,11 @@ public class Window extends JFrame {
 		gameMenu.add(killGameItem);
 		
 		menubar.add(gameMenu);
+		
+		JLabel logLabel = new JLabel("");
+		logLabel.setFont(new Font("Consolas", 0, 14));
+		menubar.add(logLabel);
+		
 		this.setJMenuBar(menubar);
 		
 	}

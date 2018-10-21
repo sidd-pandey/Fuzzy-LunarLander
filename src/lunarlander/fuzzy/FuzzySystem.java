@@ -41,16 +41,6 @@ public class FuzzySystem {
 		this.landingSpaceWidth = landingSpaceWidth;
 		
 		initialize();
-	    Logger.getLogger("java.awt").setLevel(Level.OFF);
-	    Logger.getLogger("sun.awt").setLevel(Level.OFF);
-	    Logger.getLogger("javax.swing").setLevel(Level.OFF);
-	    
-	    FuzzyLite.logger().setFilter(new Filter() {
-			@Override
-			public boolean isLoggable(LogRecord record) {
-				return record.getSourceClassName().equals("com.fuzzylite.rule.Rule");
-			}
-		});
 	}
 
 	private void initialize() {

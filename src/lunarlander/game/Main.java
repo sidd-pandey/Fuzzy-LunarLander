@@ -36,13 +36,12 @@ public class Main {
 				initialize(); // Set all variables
 
 				loadcontent(); // Get game files
-
 				Framework.gameState = Framework.GameState.RUNNING;
 			}
 		};
 		threadForInitGame.start();
 	}
-
+	
 	private void initialize() { // Start new game
 		landingSpace = new Landingspace();
 		obstacles = new Obstacles();

@@ -10,13 +10,18 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Filter;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+
+import com.fuzzylite.FuzzyLite;
 
 
 @SuppressWarnings("serial")
@@ -55,7 +60,7 @@ public class Framework extends Control {
 		super();
 		this.mainFrame = mainFrame;
 		gameState = GameState.DISPLAY;
-
+		setLogging();
 		Thread gameThread = new Thread() {
 
 			@Override
@@ -69,6 +74,7 @@ public class Framework extends Control {
 	private void initialize() {
 
 	}
+	
 
 	private void loadcontent() {
 		try {
@@ -213,5 +219,22 @@ public class Framework extends Control {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 
+	}
+	
+	private void setLogging() {
+		FuzzyLite.setLogging(true);
+	    FuzzyLite.setDebugging(true);
+	    FuzzyLite.logger().setFilter(new Filter() {
+			@Override
+			public boolean isLoggable(LogRecord record) {
+				return record.getSourceClassName().equals("com.fuzzylite.rule.Rule");
+			}
+		});
+	    FuzzyLite.logger().setUseParentHandlers(false);
+	    final JLabel logLabel = (JLabel)mainFrame.getJMenuBar().getComponent(1);
+	    FuzzyLite.logger().addHandler(new LogHandler(logLabel));
+	    Logger.getLogger("java.awt").setLevel(Level.OFF);
+	    Logger.getLogger("sun.awt").setLevel(Level.OFF);
+	    Logger.getLogger("javax.swing").setLevel(Level.OFF);	
 	}
 }
