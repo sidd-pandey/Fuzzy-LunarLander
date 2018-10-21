@@ -136,7 +136,7 @@ public class ConfigMenu implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String obstacleStr = obstacleSpecArea.getText();
-				if (obstacleStr != null) {
+				if (obstacleStr != null && !obstacleStr.isEmpty()) {
 					String[] pointsStr = obstacleStr.split("\n");
 					List<Point> centers = new ArrayList<>();
 					for (String str : pointsStr) {
@@ -144,6 +144,8 @@ public class ConfigMenu implements ActionListener {
 								 Integer.parseInt(str.split(",")[1])));
 					}
 					Conf.get().setObstalceCenters(centers);
+				}else {
+					Conf.get().setObstalceCenters(new ArrayList<>());
 				}
 			}
 		});
