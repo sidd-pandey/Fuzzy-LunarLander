@@ -1,0 +1,25 @@
+// Rules for Wall Constraints
+if lowerWall is near and landingAllowed is false then yOutputMove is up
+if upperWall is near and yspeed is negative then yOutputMove is down
+if leftWall is near and xspeed is negative then xOutputMove is right
+if rightWall is near and xspeed is positive then xOutputMove is left
+
+// Rules for managing speeds in x-direction and y-direction
+if yspeed is positiveLarge then yOutputMove is up
+if yspeed is negativeLarge then yOutputMove is down
+if xspeed is positiveLarge and isTop is false then xOutputMove is left
+if xspeed is negativeLarge and isTop is false then xOutputMove is right
+
+// Rules for landing the rocket on platform
+if xlandingPlatform is negativeFar then xOutputMove is left
+if xlandingPlatform is positiveFar then xOutputMove is right
+
+// Rules for avoiding collision with obstacle
+if isTop is true and obstacleY is near then yOutputMove is up
+if isBottom is true and obstacleY is near then yOutputMove is down
+if isLeft is true and obstacleX is near then xOutputMove is left
+if isRight is true and obstacleX is near then xOutputMove is right
+
+// Rules for moving around the obstacle
+if obstacleY is near and isTop is true and obstacleOnTop is right then xOutputMove is right
+if obstacleY is near and isTop is true and obstacleOnTop is left then xOutputMove is left

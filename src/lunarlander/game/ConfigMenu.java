@@ -1,12 +1,14 @@
 package lunarlander.game;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import lunarlander.fuzzy.RuleReader;
 
 public class ConfigMenu implements ActionListener {
 
@@ -194,9 +198,51 @@ public class ConfigMenu implements ActionListener {
 		
 		JTextArea rulesAreaText = new JTextArea();
 		JScrollPane sp = new JScrollPane(rulesAreaText);
-		rulesPanel.add(sp);
+		
+		StringBuilder builder = new StringBuilder();
+		List<String> rules = Conf.get().getRules();
+		for (String rule : rules)
+			builder.append(rule + "\n");
+		rulesAreaText.setFont(new Font("Consolas", 0, 13));
+		rulesAreaText.setText(builder.toString());
+		rulesPanel.add(sp, BorderLayout.CENTER);
+		
+		JPanel rulesUpdatePanel = new JPanel();
+		rulesUpdatePanel.setLayout(new GridLayout(1, 5));
+		
+		JButton rulesUpdateBtn = new JButton("Update");
+		rulesUpdateBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String str = rulesAreaText.getText();
+				if (str != null) {
+					ByteArrayInputStream is = new ByteArrayInputStream(str.getBytes());
+					List<String> rules = new RuleReader().read(is);
+					Conf.get().setRules(rules);
+				}
+			}
+		});
+		
+		JButton loadDefaultBtn = new JButton("Load Default");
+		loadDefaultBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				List<String> rules = new RuleReader().read();
+				StringBuilder builder = new StringBuilder();
+				for (String rule : rules)
+					builder.append(rule + "\n");
+				rulesAreaText.setText(builder.toString());
+				Conf.get().setRules(rules);
+			}
+		});
+
+		rulesUpdatePanel.add(new JLabel());
+		rulesUpdatePanel.add(new JLabel());
+		rulesUpdatePanel.add(loadDefaultBtn);
+		rulesUpdatePanel.add(rulesUpdateBtn);
+		
+		rulesPanel.add(rulesUpdatePanel, BorderLayout.SOUTH);
 		
 		return rulesPanel;
 	}
-
 }

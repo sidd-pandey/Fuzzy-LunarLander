@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import lunarlander.fuzzy.RuleReader;
+
 public class Conf {
 
 	public static final int SCREEN_WIDTH = 1280;
@@ -15,6 +17,7 @@ public class Conf {
 	private int pltX = -1;
 	private List<Point> obstalceCenters = null;
 	private boolean random = true;
+	private List<String> rules = new RuleReader().read();
 	
 	private static Conf INSTANCE = new Conf();
 	
@@ -42,8 +45,11 @@ public class Conf {
 	}
 	
 	public static void reset() {
-		if (INSTANCE.isRandom())
+		if (INSTANCE.isRandom()) {
+			List<String> prevRules = INSTANCE.getRules();
 			INSTANCE = new Conf();
+			INSTANCE.setRules(prevRules);
+		}
 	}
 
 	public int getRocketX() {
@@ -92,6 +98,14 @@ public class Conf {
 
 	public void setRandom(boolean random) {
 		this.random = random;
+	}
+
+	public List<String> getRules() {
+		return rules;
+	}
+
+	public void setRules(List<String> rules) {
+		this.rules = rules;
 	}
 	
 }

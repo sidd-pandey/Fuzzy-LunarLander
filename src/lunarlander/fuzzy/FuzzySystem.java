@@ -1,6 +1,7 @@
 package lunarlander.fuzzy;
 
 import java.awt.event.KeyEvent;
+import java.util.List;
 import java.util.logging.Filter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -236,35 +237,11 @@ public class FuzzySystem {
 		ruleBlock.setImplication(null);
 		ruleBlock.setActivation(new General());
 		
-		// Rules for Wall Constraints
-		ruleBlock.addRule(Rule.parse("if lowerWall is near and landingAllowed is false then yOutputMove is up", this.engine));
-		ruleBlock.addRule(Rule.parse("if upperWall is near and yspeed is negative then yOutputMove is down", this.engine));
-		ruleBlock.addRule(Rule.parse("if leftWall is near and xspeed is negative then xOutputMove is right", this.engine));
-		ruleBlock.addRule(Rule.parse("if rightWall is near and xspeed is positive then xOutputMove is left", this.engine));
-			
-		// Rules for managing speeds in x-direction and y-direction
-		ruleBlock.addRule(Rule.parse("if yspeed is positiveLarge then yOutputMove is up", this.engine));
-		ruleBlock.addRule(Rule.parse("if yspeed is negativeLarge then yOutputMove is down", this.engine));
-		ruleBlock.addRule(Rule.parse("if xspeed is positiveLarge and isTop is false then xOutputMove is left", this.engine));
-		ruleBlock.addRule(Rule.parse("if xspeed is negativeLarge and isTop is false then xOutputMove is right", this.engine));
+		List<String> rules = Conf.get().getRules();
 		
-		
-		// Rules for landing the rocket on platform
-		ruleBlock.addRule(Rule.parse("if xlandingPlatform is negativeFar then xOutputMove is left", this.engine));
-		ruleBlock.addRule(Rule.parse("if xlandingPlatform is positiveFar then xOutputMove is right", this.engine));
-						
-		// Rules for avoiding collision with obstacles
-		ruleBlock.addRule(Rule.parse("if isTop is true and obstacleY is near then yOutputMove is up", this.engine));
-		ruleBlock.addRule(Rule.parse("if isBottom is true and obstacleY is near then yOutputMove is down", this.engine));
-		ruleBlock.addRule(Rule.parse("if isLeft is true and obstacleX is near then xOutputMove is left", this.engine));
-		ruleBlock.addRule(Rule.parse("if isRight is true and obstacleX is near then xOutputMove is right", this.engine));
-		
-		// Rules for moving around the obstacle
-		ruleBlock.addRule(Rule.parse("if obstacleY is near and isTop is true and obstacleOnTop is right "
-			+ "then xOutputMove is right", this.engine));
-		ruleBlock.addRule(Rule.parse("if obstacleY is near and isTop is true and obstacleOnTop is left "
-				+ "then xOutputMove is left", this.engine));
-
+		for (String rule : rules) {
+			ruleBlock.addRule(Rule.parse(rule, engine));
+		}
 		getEngine().addRuleBlock(ruleBlock);
 
 	}
