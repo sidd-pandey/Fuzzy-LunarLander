@@ -186,8 +186,7 @@ public class ConfigMenu implements ActionListener {
 		return panel;
 	}
 	
-	private JPanel getRulesConfigPanel() {
-		
+	private JPanel getRulesConfigPanel() {	
 		return new JPanel();
 	}
 
