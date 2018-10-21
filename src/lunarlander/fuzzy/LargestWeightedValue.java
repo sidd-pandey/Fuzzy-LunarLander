@@ -23,21 +23,16 @@ public class LargestWeightedValue extends WeightedDefuzzifier {
 
       
         double maxw =-1, maxz=-1;
-        String maxterm = "null";
         double w, z;
 
-//        System.out.println("---------start of a move-------------");
         for (Activated activated : fuzzyOutput.getTerms()) {
         	w = activated.getDegree();
         	z = activated.getTerm().membership(w);
-//        	System.out.println(activated.getTerm().getName() +" is activated with weight: " + w +" and mebership value "+ z);
         	if (maxw < w) {
         		maxw = w;
         		maxz = z;
-        		maxterm = activated.getTerm().getName();
         	}   
         }
-//        System.out.println("---------end of a move----------" + maxterm);
         return maxz;
     }
 

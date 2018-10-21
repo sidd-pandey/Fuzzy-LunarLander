@@ -18,6 +18,7 @@ public class Conf {
 	private List<Point> obstalceCenters = null;
 	private boolean random = true;
 	private List<String> rules = new RuleReader().read();
+	private boolean playerMode = false;
 	
 	private static Conf INSTANCE = new Conf();
 	
@@ -47,8 +48,10 @@ public class Conf {
 	public static void reset() {
 		if (INSTANCE.isRandom()) {
 			List<String> prevRules = INSTANCE.getRules();
+			boolean playerMode = INSTANCE.isPlayerMode();
 			INSTANCE = new Conf();
 			INSTANCE.setRules(prevRules);
+			INSTANCE.setPlayerMode(playerMode);
 		}
 	}
 
@@ -106,6 +109,14 @@ public class Conf {
 
 	public void setRules(List<String> rules) {
 		this.rules = rules;
+	}
+
+	public boolean isPlayerMode() {
+		return playerMode;
+	}
+
+	public void setPlayerMode(boolean playerMode) {
+		this.playerMode = playerMode;
 	}
 	
 }

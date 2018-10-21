@@ -10,9 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.logging.Filter;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
@@ -119,6 +117,16 @@ public class Framework extends Control {
 				configItem.setEnabled(false);
 			}
 			
+			if (gameState == GameState.MENU) {
+				JMenu jMenu = mainFrame.getJMenuBar().getMenu(0);
+				JMenuItem configItem = (JMenuItem)jMenu.getMenuComponent(2);
+				configItem.setEnabled(true);
+			}else {
+				JMenu jMenu = mainFrame.getJMenuBar().getMenu(0);
+				JMenuItem configItem = (JMenuItem)jMenu.getMenuComponent(2);
+				configItem.setEnabled(false);
+			}
+			
 			switch (gameState) {
 			case RUNNING:
 				gameTime += System.nanoTime() - lastTime;
@@ -179,10 +187,7 @@ public class Framework extends Control {
 	private void newGame() {
 		gameTime = 0;
 		lastTime = System.nanoTime();
-
 		game = new Main();
-
-
 	}
 
 	private void restartGame() {
@@ -224,15 +229,11 @@ public class Framework extends Control {
 	private void setLogging() {
 		FuzzyLite.setLogging(true);
 	    FuzzyLite.setDebugging(true);
-	    FuzzyLite.logger().setFilter(new Filter() {
-			@Override
-			public boolean isLoggable(LogRecord record) {
-				return record.getSourceClassName().equals("com.fuzzylite.rule.Rule");
-			}
-		});
 	    FuzzyLite.logger().setUseParentHandlers(false);
 	    final JLabel logLabel = (JLabel)mainFrame.getJMenuBar().getComponent(1);
-	    FuzzyLite.logger().addHandler(new LogHandler(logLabel));
+	    final JLabel lrLabel = (JLabel)mainFrame.getJMenuBar().getComponent(2);
+	    final JLabel udJLabel = (JLabel)mainFrame.getJMenuBar().getComponent(3);
+	    FuzzyLite.logger().addHandler(new LogHandler(logLabel, lrLabel, udJLabel));
 	    Logger.getLogger("java.awt").setLevel(Level.OFF);
 	    Logger.getLogger("sun.awt").setLevel(Level.OFF);
 	    Logger.getLogger("javax.swing").setLevel(Level.OFF);	

@@ -68,7 +68,9 @@ public class Rocket {
 		this.landingSpace = landingSpace;
 		this.obstacles = obstacles;
 		
-		this.pilot = new FuzzyPlayer(this);
+		if (!Conf.get().isPlayerMode()) {
+			this.pilot = new FuzzyPlayer(this);
+		}
 		this.x = Conf.get().getRocketX();
 		this.y = Conf.get().getRocketY();
 
