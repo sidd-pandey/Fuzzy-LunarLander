@@ -34,9 +34,6 @@ public class Conf {
 			ArrayList<Point> initCenters = new ArrayList<>();
 			initCenters.add(new Point(Conf.SCREEN_WIDTH/4, 250));
 			initCenters.add(new Point(3 * Conf.SCREEN_WIDTH/4, 250));
-			initCenters.add(new Point(Conf.SCREEN_WIDTH/4, Conf.SCREEN_HEIGHT - 250));
-			initCenters.add(new Point(3 * Conf.SCREEN_WIDTH/4, Conf.SCREEN_HEIGHT - 250));
-			initCenters.add(new Point(Conf.SCREEN_WIDTH/2, Conf.SCREEN_HEIGHT/2));
 			this.obstalceCenters = initCenters;
 		}
 	}
