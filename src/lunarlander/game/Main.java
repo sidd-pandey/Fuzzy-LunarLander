@@ -15,9 +15,6 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
-import lunarlander.players.Player;
-import lunarlander.players.RandomPlayer;
-
 public class Main {
 
 	private Rocket rocket;
@@ -91,6 +88,9 @@ public class Main {
 			Framework.gameState = Framework.GameState.GAMEOVER;
 		}
 		
+		if (Framework.gameState == Framework.GameState.GAMEOVER) {
+			Conf.reset();
+		}
 	}
 
 	public void draw(Graphics2D g2d, Point mousePosition) {

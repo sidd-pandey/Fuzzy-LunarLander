@@ -88,6 +88,13 @@ public class Obstacles {
 		return false;
 	}
 
-	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		for (Point p : coordinates) {
+			builder.append(p.x+","+p.y+"\n");
+		}
+		return builder.toString();
+	}
 	
 }

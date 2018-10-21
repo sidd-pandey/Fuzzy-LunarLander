@@ -64,7 +64,7 @@ public class FuzzySystem {
 		lowerWall.setEnabled(true);
 		lowerWall.setRange(0, h);
 		lowerWall.setLockValueInRange(false);
-		lowerWall.addTerm(new Trapezoid("near", 0, 0, h/10, h/8));
+		lowerWall.addTerm(new Trapezoid("near", 0, 0, h/8, h/7));
 		lowerWall.addTerm(new Trapezoid("far", h/10, h/8, h, h));
 		this.engine.addInputVariable(lowerWall);
 

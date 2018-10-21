@@ -14,6 +14,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 
 @SuppressWarnings("serial")
@@ -43,13 +46,14 @@ public class Framework extends Control {
 
 
 	private Main game;
+	private JFrame mainFrame;
 
 
 	private BufferedImage lunarLander;
 
-	public Framework() {
+	public Framework(JFrame mainFrame) {
 		super();
-
+		this.mainFrame = mainFrame;
 		gameState = GameState.DISPLAY;
 
 		Thread gameThread = new Thread() {
@@ -88,7 +92,27 @@ public class Framework extends Control {
 
 		while (true) {
 			beginTime = System.nanoTime();
-
+			
+			if (gameState == GameState.MENU) {
+				JMenu jMenu = mainFrame.getJMenuBar().getMenu(0);
+				JMenuItem configItem = (JMenuItem)jMenu.getMenuComponent(0);
+				configItem.setEnabled(true);
+			}else {
+				JMenu jMenu = mainFrame.getJMenuBar().getMenu(0);
+				JMenuItem configItem = (JMenuItem)jMenu.getMenuComponent(0);
+				configItem.setEnabled(false);
+			}
+			
+			if (gameState == GameState.RUNNING) {
+				JMenu jMenu = mainFrame.getJMenuBar().getMenu(0);
+				JMenuItem configItem = (JMenuItem)jMenu.getMenuComponent(1);
+				configItem.setEnabled(true);
+			}else {
+				JMenu jMenu = mainFrame.getJMenuBar().getMenu(0);
+				JMenuItem configItem = (JMenuItem)jMenu.getMenuComponent(1);
+				configItem.setEnabled(false);
+			}
+			
 			switch (gameState) {
 			case RUNNING:
 				gameTime += System.nanoTime() - lastTime;

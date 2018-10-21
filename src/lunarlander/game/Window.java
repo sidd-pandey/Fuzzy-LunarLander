@@ -3,6 +3,8 @@
  */
 package lunarlander.game;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -30,7 +32,7 @@ public class Window extends JFrame {
 		
 		this.createMenu();
 		
-		this.setContentPane(new Framework());
+		this.setContentPane(new Framework(this));
 
 		this.setVisible(true);
 
@@ -49,12 +51,19 @@ public class Window extends JFrame {
 		JMenuBar menubar = new JMenuBar();
 		JMenu gameMenu = new JMenu("Game");
 		JMenuItem configItem = new JMenuItem("Configurations");
-		
 		configItem.addActionListener(new ConfigMenu(this));
-		
 		gameMenu.add(configItem);
-		menubar.add(gameMenu);
 		
+		JMenuItem killGameItem = new JMenuItem("Kill Game");
+		killGameItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Framework.gameState = Framework.GameState.GAMEOVER;
+			}
+		});
+		gameMenu.add(killGameItem);
+		
+		menubar.add(gameMenu);
 		this.setJMenuBar(menubar);
 		
 	}
