@@ -254,11 +254,6 @@ public class FuzzySystem {
 		ruleBlock.addRule(Rule.parse("if xlandingPlatform is positiveFar then xOutputMove is right", this.engine));
 						
 		// Rules for avoiding collision with obstacles
-//		ruleBlock.addRule(Rule.parse("if isTop is true and obstacleY is near and yspeed is positive then yOutputMove is up", this.engine));
-//		ruleBlock.addRule(Rule.parse("if isBottom is true and obstacleY is near and yspeed is negative then yOutputMove is down", this.engine));
-//		ruleBlock.addRule(Rule.parse("if isLeft is true and obstacleX is near and xspeed is positive then xOutputMove is left", this.engine));
-//		ruleBlock.addRule(Rule.parse("if isRight is true and obstacleX is near and xspeed is negative then xOutputMove is right", this.engine));
-					
 		ruleBlock.addRule(Rule.parse("if isTop is true and obstacleY is near then yOutputMove is up", this.engine));
 		ruleBlock.addRule(Rule.parse("if isBottom is true and obstacleY is near then yOutputMove is down", this.engine));
 		ruleBlock.addRule(Rule.parse("if isLeft is true and obstacleX is near then xOutputMove is left", this.engine));

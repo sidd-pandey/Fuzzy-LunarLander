@@ -1,5 +1,6 @@
 package lunarlander.game;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -186,8 +187,16 @@ public class ConfigMenu implements ActionListener {
 		return panel;
 	}
 	
-	private JPanel getRulesConfigPanel() {	
-		return new JPanel();
+	private JPanel getRulesConfigPanel() {
+		
+		JPanel rulesPanel = new JPanel();
+		rulesPanel.setLayout(new BorderLayout());
+		
+		JTextArea rulesAreaText = new JTextArea();
+		JScrollPane sp = new JScrollPane(rulesAreaText);
+		rulesPanel.add(sp);
+		
+		return rulesPanel;
 	}
 
 }
